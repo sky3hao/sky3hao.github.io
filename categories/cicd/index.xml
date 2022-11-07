@@ -6,11 +6,11 @@
     <description>Recent content in CICD on 老鹰之歌的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 07 Nov 2022 13:01:23 +0800</lastBuildDate><atom:link href="https://sky3hao.github.io/categories/cicd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Dec 2020 13:01:23 +0800</lastBuildDate><atom:link href="https://sky3hao.github.io/categories/cicd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Gitlab &#43; Drone2</title>
       <link>https://sky3hao.github.io/post/cicd/cicd-drone/</link>
-      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      <pubDate>Mon, 07 Dec 2020 13:01:23 +0800</pubDate>
       
       <guid>https://sky3hao.github.io/post/cicd/cicd-drone/</guid>
       <description>1. 安装gitlab: docker run -d -p 443:443 -p 80:80 -p 222:22 --name gitlab --restart always -v /home/gitlab/config:/etc/gitlab -v /home/gitlab/logs:/var/log/gitlab -v /home/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce:14.1.8-ce.0 注意要打开webhook网络权限: admin area -&amp;gt; network -&amp;gt; outbound .. 2. 安装drone2: docker run \ --volume=/var/lib/drone:/data \ --volume=/etc/localtime:/etc/localtime:ro</description>
@@ -19,7 +19,7 @@
     <item>
       <title>Ubunut &#43; K3S 安装 Zadig</title>
       <link>https://sky3hao.github.io/post/cicd/cicd-zadig/</link>
-      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      <pubDate>Mon, 07 Dec 2020 13:01:23 +0800</pubDate>
       
       <guid>https://sky3hao.github.io/post/cicd/cicd-zadig/</guid>
       <description>1. 安装 docker apt update apt install docker.io 2. 安装 k3s 文档: https://docs.rancher.cn/docs/k3s/quick-start/_index/ curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn INSTALL_K3S_VERSION=v1.22.5+k3s1 sh - 检查状态: kubectl get po -A 3. 安装 kuboard V3 kubectl apply -f https://addons.kuboard.cn/kuboard/kuboard-v3-swr.yaml 浏览器中访问 http://192.168.22.172:30080/ 用户名密码: admin / Kuboard123 4. 安装 zadig 文档: https://docs.koderover.com/zadig/v1.15.0/install/install-on-k8s/#%E6%AD%A5%E9%AA%A4-3-%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC 设置系</description>

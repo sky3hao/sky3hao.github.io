@@ -6,11 +6,20 @@
     <description>Recent content in 存储 on 老鹰之歌的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 07 Nov 2022 13:01:23 +0800</lastBuildDate><atom:link href="https://sky3hao.github.io/tags/%E5%AD%98%E5%82%A8/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 07 Dec 2021 13:01:23 +0800</lastBuildDate><atom:link href="https://sky3hao.github.io/tags/%E5%AD%98%E5%82%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ETCD原理与使用</title>
+      <link>https://sky3hao.github.io/post/storage/storage-etcd/</link>
+      <pubDate>Tue, 07 Dec 2021 13:01:23 +0800</pubDate>
+      
+      <guid>https://sky3hao.github.io/post/storage/storage-etcd/</guid>
+      <description>1. ETCD docker-compose 部署 1.1 etcd集群的部署方式 静态配置 比较适用于线下环境，集群节点个数已知，各节点地址也已知的情况。一旦集群启动后，后续“&amp;ndash;</description>
+    </item>
+    
     <item>
       <title>Redis集群</title>
       <link>https://sky3hao.github.io/post/storage/storage-redisclustor/</link>
-      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      <pubDate>Sat, 07 Aug 2021 13:01:23 +0800</pubDate>
       
       <guid>https://sky3hao.github.io/post/storage/storage-redisclustor/</guid>
       <description>Redis支持三种集群方案: 主从复制模式 Sentinel（哨兵）模式 Cluster模式 1. 主从复制模式 客户端可对主数据库进行读写操作，对从数据</description>

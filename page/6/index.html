@@ -295,7 +295,7 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go/go-gc/">Golang 垃圾回收</a>
+      <a class="post-link" href="/post/cicd/cicd-drone/">Gitlab &#43; Drone2</a>
     </h1>
     
 
@@ -311,8 +311,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2022-11-07">
-      2022-11-07
+    <time datetime="2020-12-07">
+      2020-12-07
     </time>
   </div>
 
@@ -323,7 +323,7 @@
     
 
     <div class="post-meta-category">
-        <a href="https://sky3hao.github.io/categories/golang/"> golang </a>
+        <a href="https://sky3hao.github.io/categories/cicd/"> CICD </a>
           
       </div>
 
@@ -342,10 +342,10 @@
   <div class="post-content">
     
       <div class="post-summary">
-        1. 进程里面的堆和栈 我们知道进程之间内存是隔离的不共享。所以一般说到内存就是指的一个进程用到的内存。 而一个进程的内存一般可以分为 5个区：栈区,
+        1. 安装gitlab: docker run -d -p 443:443 -p 80:80 -p 222:22 --name gitlab --restart always -v /home/gitlab/config:/etc/gitlab -v /home/gitlab/logs:/var/log/gitlab -v /home/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce:14.1.8-ce.0 注意要打开webhook网络权限: admin area -&gt; network -&gt; outbound .. 2. 安装drone2: docker run \ --volume=/var/lib/drone:/data \ --volume=/etc/localtime:/etc/localtime:ro
       </div>
       <div class="read-more">
-        <a href="/post/go/go-gc/" class="read-more-link"
+        <a href="/post/cicd/cicd-drone/" class="read-more-link"
           >阅读全文</a
         >
       </div>
@@ -358,7 +358,7 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go/go-gops/">Gops</a>
+      <a class="post-link" href="/post/cicd/cicd-zadig/">Ubunut &#43; K3S 安装 Zadig</a>
     </h1>
     
 
@@ -374,8 +374,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2022-11-07">
-      2022-11-07
+    <time datetime="2020-12-07">
+      2020-12-07
     </time>
   </div>
 
@@ -386,7 +386,7 @@
     
 
     <div class="post-meta-category">
-        <a href="https://sky3hao.github.io/categories/golang/"> golang </a>
+        <a href="https://sky3hao.github.io/categories/cicd/"> CICD </a>
           
       </div>
 
@@ -405,10 +405,10 @@
   <div class="post-content">
     
       <div class="post-summary">
-        gops 是由 Google 官方出品的一个命令行工具，与 ps 命令的功能类似，能够查看并诊断当前系统中 Go 程序的运行状态及内部情况，在一些使用场景中具有较大的存在意义
+        1. 安装 docker apt update apt install docker.io 2. 安装 k3s 文档: https://docs.rancher.cn/docs/k3s/quick-start/_index/ curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn INSTALL_K3S_VERSION=v1.22.5+k3s1 sh - 检查状态: kubectl get po -A 3. 安装 kuboard V3 kubectl apply -f https://addons.kuboard.cn/kuboard/kuboard-v3-swr.yaml 浏览器中访问 http://192.168.22.172:30080/ 用户名密码: admin / Kuboard123 4. 安装 zadig 文档: https://docs.koderover.com/zadig/v1.15.0/install/install-on-k8s/#%E6%AD%A5%E9%AA%A4-3-%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC 设置系
       </div>
       <div class="read-more">
-        <a href="/post/go/go-gops/" class="read-more-link"
+        <a href="/post/cicd/cicd-zadig/" class="read-more-link"
           >阅读全文</a
         >
       </div>
@@ -421,7 +421,7 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/struct/struct-tree/">数据结构-树</a>
+      <a class="post-link" href="/post/others/unix/">UNIX 哲学</a>
     </h1>
     
 
@@ -437,8 +437,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2022-11-07">
-      2022-11-07
+    <time datetime="2020-11-07">
+      2020-11-07
     </time>
   </div>
 
@@ -449,7 +449,7 @@
     
 
     <div class="post-meta-category">
-        <a href="https://sky3hao.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"> 数据结构 </a>
+        <a href="https://sky3hao.github.io/categories/%E5%85%B6%E4%BB%96/"> 其他 </a>
           
       </div>
 
@@ -468,10 +468,10 @@
   <div class="post-content">
     
       <div class="post-summary">
-        二叉查找树 简介 二叉查找树也称为有序二叉查找树, 满足二叉查找树的一般性质, 是指一棵空树具有如下性质: 任意节点左子树不为空, 则左子树的值均小于根
+        &ldquo;简单原则&rdquo;&mdash;-尽量用简单的方法解决问题&mdash;-是&quot;Unix哲学&quot;的根本原则
       </div>
       <div class="read-more">
-        <a href="/post/struct/struct-tree/" class="read-more-link"
+        <a href="/post/others/unix/" class="read-more-link"
           >阅读全文</a
         >
       </div>
@@ -527,6 +527,10 @@
       
       <li  class="active" >
         <a href="/page/6/">6</a>
+      </li>
+      
+      <li >
+        <a href="/page/7/">7</a>
       </li>
       
     </ul>

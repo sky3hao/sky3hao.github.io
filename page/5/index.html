@@ -295,7 +295,7 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go/go-debug/">Golang GODEBUG</a>
+      <a class="post-link" href="/post/go/unit/go-unit-testify/">单元测试-testify</a>
     </h1>
     
 
@@ -311,8 +311,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2022-11-07">
-      2022-11-07
+    <time datetime="2021-09-07">
+      2021-09-07
     </time>
   </div>
 
@@ -342,10 +342,10 @@
   <div class="post-content">
     
       <div class="post-summary">
-        1. 用 GODEBUG 看调度跟踪 1.1 两个参数 schedtrace：设置 schedtrace=X 参数可以使运行时在每 X 毫秒发出一行调度器的摘要信息到标准 err 输出中。 scheddetai
+        1. 简介 Testify基于gotesting编写，所以语法上、执行命令行与go test完全兼容，只是其是比较清晰的断言定义。它提供 assert 和 require 两种用
       </div>
       <div class="read-more">
-        <a href="/post/go/go-debug/" class="read-more-link"
+        <a href="/post/go/unit/go-unit-testify/" class="read-more-link"
           >阅读全文</a
         >
       </div>
@@ -358,7 +358,7 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go/go-pprof/">Golang PProf</a>
+      <a class="post-link" href="/post/go/unit/go-unit-testing/">单元测试-testing</a>
     </h1>
     
 
@@ -374,8 +374,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2022-11-07">
-      2022-11-07
+    <time datetime="2021-09-07">
+      2021-09-07
     </time>
   </div>
 
@@ -405,10 +405,10 @@
   <div class="post-content">
     
       <div class="post-summary">
-        1. 概念 1.1 PProf 是什么 在 Go 语言中，PProf 是用于可视化和分析性能分析数据的工具，PProf 以 profile.proto 读取分析样本的集合，并生成报告以可视化并帮助分析数
+        testing 包被专门用来进行单元测试以及进行自动化测试，打印日志和错误报告。 1. go test工具 go test命令是一个按照一定约定和组织的测试代码的驱动程序
       </div>
       <div class="read-more">
-        <a href="/post/go/go-pprof/" class="read-more-link"
+        <a href="/post/go/unit/go-unit-testing/" class="read-more-link"
           >阅读全文</a
         >
       </div>
@@ -421,7 +421,7 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go/go-trace/">Golang Trace</a>
+      <a class="post-link" href="/post/storage/storage-redisclustor/">Redis集群</a>
     </h1>
     
 
@@ -437,8 +437,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2022-11-07">
-      2022-11-07
+    <time datetime="2021-08-07">
+      2021-08-07
     </time>
   </div>
 
@@ -449,7 +449,7 @@
     
 
     <div class="post-meta-category">
-        <a href="https://sky3hao.github.io/categories/golang/"> golang </a>
+        <a href="https://sky3hao.github.io/categories/%E5%AD%98%E5%82%A8/"> 存储 </a>
           
       </div>
 
@@ -468,10 +468,10 @@
   <div class="post-content">
     
       <div class="post-summary">
-        例如 Goroutine 在执行时会做哪些操作？执行/阻塞了多长时间？在什么时候阻止？在哪里被阻止的？谁又锁/解锁了它们？GC 是怎么影响到 Goroutine 的执行的？这些东西用
+        Redis支持三种集群方案: 主从复制模式 Sentinel（哨兵）模式 Cluster模式 1. 主从复制模式 客户端可对主数据库进行读写操作，对从数据
       </div>
       <div class="read-more">
-        <a href="/post/go/go-trace/" class="read-more-link"
+        <a href="/post/storage/storage-redisclustor/" class="read-more-link"
           >阅读全文</a
         >
       </div>
@@ -527,6 +527,10 @@
       
       <li >
         <a href="/page/6/">6</a>
+      </li>
+      
+      <li >
+        <a href="/page/7/">7</a>
       </li>
       
     </ul>

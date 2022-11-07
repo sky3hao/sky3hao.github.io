@@ -295,7 +295,7 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/others/unix/">UNIX 哲学</a>
+      <a class="post-link" href="/post/go/go-gmp/">Golang GMP</a>
     </h1>
     
 
@@ -323,7 +323,7 @@
     
 
     <div class="post-meta-category">
-        <a href="https://sky3hao.github.io/categories/%E5%85%B6%E4%BB%96/"> 其他 </a>
+        <a href="https://sky3hao.github.io/categories/golang/"> golang </a>
           
       </div>
 
@@ -342,10 +342,10 @@
   <div class="post-content">
     
       <div class="post-summary">
-        &ldquo;简单原则&rdquo;&mdash;-尽量用简单的方法解决问题&mdash;-是&quot;Unix哲学&quot;的根本原则
+        多个线程可以属于同一个进程并共享内存空间。因为不需要创建新的虚拟内存空间，所以它们也不需要内存管理单元处理上下文的切换，线程之间的通信也正是
       </div>
       <div class="read-more">
-        <a href="/post/others/unix/" class="read-more-link"
+        <a href="/post/go/go-gmp/" class="read-more-link"
           >阅读全文</a
         >
       </div>
@@ -358,7 +358,7 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/cicd/cicd-drone/">Gitlab &#43; Drone2</a>
+      <a class="post-link" href="/post/go/go-debug/">Golang GODEBUG</a>
     </h1>
     
 
@@ -386,7 +386,7 @@
     
 
     <div class="post-meta-category">
-        <a href="https://sky3hao.github.io/categories/cicd/"> CICD </a>
+        <a href="https://sky3hao.github.io/categories/golang/"> golang </a>
           
       </div>
 
@@ -405,10 +405,10 @@
   <div class="post-content">
     
       <div class="post-summary">
-        1. 安装gitlab: docker run -d -p 443:443 -p 80:80 -p 222:22 --name gitlab --restart always -v /home/gitlab/config:/etc/gitlab -v /home/gitlab/logs:/var/log/gitlab -v /home/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce:14.1.8-ce.0 注意要打开webhook网络权限: admin area -&gt; network -&gt; outbound .. 2. 安装drone2: docker run \ --volume=/var/lib/drone:/data \ --volume=/etc/localtime:/etc/localtime:ro
+        1. 用 GODEBUG 看调度跟踪 1.1 两个参数 schedtrace：设置 schedtrace=X 参数可以使运行时在每 X 毫秒发出一行调度器的摘要信息到标准 err 输出中。 scheddetai
       </div>
       <div class="read-more">
-        <a href="/post/cicd/cicd-drone/" class="read-more-link"
+        <a href="/post/go/go-debug/" class="read-more-link"
           >阅读全文</a
         >
       </div>
@@ -421,7 +421,7 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/storage/storage-redisclustor/">Redis集群</a>
+      <a class="post-link" href="/post/go/go-pprof/">Golang PProf</a>
     </h1>
     
 
@@ -449,7 +449,7 @@
     
 
     <div class="post-meta-category">
-        <a href="https://sky3hao.github.io/categories/%E5%AD%98%E5%82%A8/"> 存储 </a>
+        <a href="https://sky3hao.github.io/categories/golang/"> golang </a>
           
       </div>
 
@@ -468,10 +468,10 @@
   <div class="post-content">
     
       <div class="post-summary">
-        Redis支持三种集群方案: 主从复制模式 Sentinel（哨兵）模式 Cluster模式 1. 主从复制模式 客户端可对主数据库进行读写操作，对从数据
+        1. 概念 1.1 PProf 是什么 在 Go 语言中，PProf 是用于可视化和分析性能分析数据的工具，PProf 以 profile.proto 读取分析样本的集合，并生成报告以可视化并帮助分析数
       </div>
       <div class="read-more">
-        <a href="/post/storage/storage-redisclustor/" class="read-more-link"
+        <a href="/post/go/go-pprof/" class="read-more-link"
           >阅读全文</a
         >
       </div>
@@ -527,6 +527,10 @@
       
       <li >
         <a href="/page/6/">6</a>
+      </li>
+      
+      <li >
+        <a href="/page/7/">7</a>
       </li>
       
     </ul>

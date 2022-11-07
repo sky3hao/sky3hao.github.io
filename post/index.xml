@@ -35,78 +35,6 @@
     </item>
     
     <item>
-      <title>UNIX 哲学</title>
-      <link>https://sky3hao.github.io/post/others/unix/</link>
-      <pubDate>Mon, 07 Nov 2022 13:20:23 +0800</pubDate>
-      
-      <guid>https://sky3hao.github.io/post/others/unix/</guid>
-      <description>&amp;ldquo;简单原则&amp;rdquo;&amp;mdash;-尽量用简单的方法解决问题&amp;mdash;-是&amp;quot;Unix哲学&amp;quot;的根本原则</description>
-    </item>
-    
-    <item>
-      <title>Gitlab &#43; Drone2</title>
-      <link>https://sky3hao.github.io/post/cicd/cicd-drone/</link>
-      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
-      
-      <guid>https://sky3hao.github.io/post/cicd/cicd-drone/</guid>
-      <description>1. 安装gitlab: docker run -d -p 443:443 -p 80:80 -p 222:22 --name gitlab --restart always -v /home/gitlab/config:/etc/gitlab -v /home/gitlab/logs:/var/log/gitlab -v /home/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce:14.1.8-ce.0 注意要打开webhook网络权限: admin area -&amp;gt; network -&amp;gt; outbound .. 2. 安装drone2: docker run \ --volume=/var/lib/drone:/data \ --volume=/etc/localtime:/etc/localtime:ro</description>
-    </item>
-    
-    <item>
-      <title>Redis集群</title>
-      <link>https://sky3hao.github.io/post/storage/storage-redisclustor/</link>
-      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
-      
-      <guid>https://sky3hao.github.io/post/storage/storage-redisclustor/</guid>
-      <description>Redis支持三种集群方案: 主从复制模式 Sentinel（哨兵）模式 Cluster模式 1. 主从复制模式 客户端可对主数据库进行读写操作，对从数据</description>
-    </item>
-    
-    <item>
-      <title>Ubunut &#43; K3S 安装 Zadig</title>
-      <link>https://sky3hao.github.io/post/cicd/cicd-zadig/</link>
-      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
-      
-      <guid>https://sky3hao.github.io/post/cicd/cicd-zadig/</guid>
-      <description>1. 安装 docker apt update apt install docker.io 2. 安装 k3s 文档: https://docs.rancher.cn/docs/k3s/quick-start/_index/ curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn INSTALL_K3S_VERSION=v1.22.5+k3s1 sh - 检查状态: kubectl get po -A 3. 安装 kuboard V3 kubectl apply -f https://addons.kuboard.cn/kuboard/kuboard-v3-swr.yaml 浏览器中访问 http://192.168.22.172:30080/ 用户名密码: admin / Kuboard123 4. 安装 zadig 文档: https://docs.koderover.com/zadig/v1.15.0/install/install-on-k8s/#%E6%AD%A5%E9%AA%A4-3-%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC 设置系</description>
-    </item>
-    
-    <item>
-      <title>单元测试-GoConvey</title>
-      <link>https://sky3hao.github.io/post/go/unit/go-unit-goconvy/</link>
-      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
-      
-      <guid>https://sky3hao.github.io/post/go/unit/go-unit-goconvy/</guid>
-      <description>1. 介绍 GoConvey直接与go test集成，提供了很多丰富的断言函数，能够在终端输出可读的彩色测试结果，并且还支持全自动的Web UI。 安装</description>
-    </item>
-    
-    <item>
-      <title>单元测试-GoMock</title>
-      <link>https://sky3hao.github.io/post/go/unit/go-unit-gomock/</link>
-      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
-      
-      <guid>https://sky3hao.github.io/post/go/unit/go-unit-gomock/</guid>
-      <description>1. Mock &amp;amp; Stub Mock（模拟）和 Stub（桩）是在测试过程中，模拟外部依赖行为的两种常用的技术手段。通过 Mock 和 Stub 我们不仅可以让测试环境没有外部依赖而</description>
-    </item>
-    
-    <item>
-      <title>单元测试-testify</title>
-      <link>https://sky3hao.github.io/post/go/unit/go-unit-testify/</link>
-      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
-      
-      <guid>https://sky3hao.github.io/post/go/unit/go-unit-testify/</guid>
-      <description>1. 简介 Testify基于gotesting编写，所以语法上、执行命令行与go test完全兼容，只是其是比较清晰的断言定义。它提供 assert 和 require 两种用</description>
-    </item>
-    
-    <item>
-      <title>单元测试-testing</title>
-      <link>https://sky3hao.github.io/post/go/unit/go-unit-testing/</link>
-      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
-      
-      <guid>https://sky3hao.github.io/post/go/unit/go-unit-testing/</guid>
-      <description>testing 包被专门用来进行单元测试以及进行自动化测试，打印日志和错误报告。 1. go test工具 go test命令是一个按照一定约定和组织的测试代码的驱动程序</description>
-    </item>
-    
-    <item>
       <title>Golang GMP</title>
       <link>https://sky3hao.github.io/post/go/go-gmp/</link>
       <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
@@ -161,9 +89,90 @@
     </item>
     
     <item>
+      <title>ETCD原理与使用</title>
+      <link>https://sky3hao.github.io/post/storage/storage-etcd/</link>
+      <pubDate>Tue, 07 Dec 2021 13:01:23 +0800</pubDate>
+      
+      <guid>https://sky3hao.github.io/post/storage/storage-etcd/</guid>
+      <description>1. ETCD docker-compose 部署 1.1 etcd集群的部署方式 静态配置 比较适用于线下环境，集群节点个数已知，各节点地址也已知的情况。一旦集群启动后，后续“&amp;ndash;</description>
+    </item>
+    
+    <item>
+      <title>单元测试-GoConvey</title>
+      <link>https://sky3hao.github.io/post/go/unit/go-unit-goconvy/</link>
+      <pubDate>Tue, 07 Sep 2021 13:01:23 +0800</pubDate>
+      
+      <guid>https://sky3hao.github.io/post/go/unit/go-unit-goconvy/</guid>
+      <description>1. 介绍 GoConvey直接与go test集成，提供了很多丰富的断言函数，能够在终端输出可读的彩色测试结果，并且还支持全自动的Web UI。 安装</description>
+    </item>
+    
+    <item>
+      <title>单元测试-GoMock</title>
+      <link>https://sky3hao.github.io/post/go/unit/go-unit-gomock/</link>
+      <pubDate>Tue, 07 Sep 2021 13:01:23 +0800</pubDate>
+      
+      <guid>https://sky3hao.github.io/post/go/unit/go-unit-gomock/</guid>
+      <description>1. Mock &amp;amp; Stub Mock（模拟）和 Stub（桩）是在测试过程中，模拟外部依赖行为的两种常用的技术手段。通过 Mock 和 Stub 我们不仅可以让测试环境没有外部依赖而</description>
+    </item>
+    
+    <item>
+      <title>单元测试-testify</title>
+      <link>https://sky3hao.github.io/post/go/unit/go-unit-testify/</link>
+      <pubDate>Tue, 07 Sep 2021 13:01:23 +0800</pubDate>
+      
+      <guid>https://sky3hao.github.io/post/go/unit/go-unit-testify/</guid>
+      <description>1. 简介 Testify基于gotesting编写，所以语法上、执行命令行与go test完全兼容，只是其是比较清晰的断言定义。它提供 assert 和 require 两种用</description>
+    </item>
+    
+    <item>
+      <title>单元测试-testing</title>
+      <link>https://sky3hao.github.io/post/go/unit/go-unit-testing/</link>
+      <pubDate>Tue, 07 Sep 2021 13:01:23 +0800</pubDate>
+      
+      <guid>https://sky3hao.github.io/post/go/unit/go-unit-testing/</guid>
+      <description>testing 包被专门用来进行单元测试以及进行自动化测试，打印日志和错误报告。 1. go test工具 go test命令是一个按照一定约定和组织的测试代码的驱动程序</description>
+    </item>
+    
+    <item>
+      <title>Redis集群</title>
+      <link>https://sky3hao.github.io/post/storage/storage-redisclustor/</link>
+      <pubDate>Sat, 07 Aug 2021 13:01:23 +0800</pubDate>
+      
+      <guid>https://sky3hao.github.io/post/storage/storage-redisclustor/</guid>
+      <description>Redis支持三种集群方案: 主从复制模式 Sentinel（哨兵）模式 Cluster模式 1. 主从复制模式 客户端可对主数据库进行读写操作，对从数据</description>
+    </item>
+    
+    <item>
+      <title>Gitlab &#43; Drone2</title>
+      <link>https://sky3hao.github.io/post/cicd/cicd-drone/</link>
+      <pubDate>Mon, 07 Dec 2020 13:01:23 +0800</pubDate>
+      
+      <guid>https://sky3hao.github.io/post/cicd/cicd-drone/</guid>
+      <description>1. 安装gitlab: docker run -d -p 443:443 -p 80:80 -p 222:22 --name gitlab --restart always -v /home/gitlab/config:/etc/gitlab -v /home/gitlab/logs:/var/log/gitlab -v /home/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce:14.1.8-ce.0 注意要打开webhook网络权限: admin area -&amp;gt; network -&amp;gt; outbound .. 2. 安装drone2: docker run \ --volume=/var/lib/drone:/data \ --volume=/etc/localtime:/etc/localtime:ro</description>
+    </item>
+    
+    <item>
+      <title>Ubunut &#43; K3S 安装 Zadig</title>
+      <link>https://sky3hao.github.io/post/cicd/cicd-zadig/</link>
+      <pubDate>Mon, 07 Dec 2020 13:01:23 +0800</pubDate>
+      
+      <guid>https://sky3hao.github.io/post/cicd/cicd-zadig/</guid>
+      <description>1. 安装 docker apt update apt install docker.io 2. 安装 k3s 文档: https://docs.rancher.cn/docs/k3s/quick-start/_index/ curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn INSTALL_K3S_VERSION=v1.22.5+k3s1 sh - 检查状态: kubectl get po -A 3. 安装 kuboard V3 kubectl apply -f https://addons.kuboard.cn/kuboard/kuboard-v3-swr.yaml 浏览器中访问 http://192.168.22.172:30080/ 用户名密码: admin / Kuboard123 4. 安装 zadig 文档: https://docs.koderover.com/zadig/v1.15.0/install/install-on-k8s/#%E6%AD%A5%E9%AA%A4-3-%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC 设置系</description>
+    </item>
+    
+    <item>
+      <title>UNIX 哲学</title>
+      <link>https://sky3hao.github.io/post/others/unix/</link>
+      <pubDate>Sat, 07 Nov 2020 13:20:23 +0800</pubDate>
+      
+      <guid>https://sky3hao.github.io/post/others/unix/</guid>
+      <description>&amp;ldquo;简单原则&amp;rdquo;&amp;mdash;-尽量用简单的方法解决问题&amp;mdash;-是&amp;quot;Unix哲学&amp;quot;的根本原则</description>
+    </item>
+    
+    <item>
       <title>数据结构-树</title>
       <link>https://sky3hao.github.io/post/struct/struct-tree/</link>
-      <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
+      <pubDate>Sat, 07 Nov 2020 11:01:23 +0800</pubDate>
       
       <guid>https://sky3hao.github.io/post/struct/struct-tree/</guid>
       <description>二叉查找树 简介 二叉查找树也称为有序二叉查找树, 满足二叉查找树的一般性质, 是指一棵空树具有如下性质: 任意节点左子树不为空, 则左子树的值均小于根</description>

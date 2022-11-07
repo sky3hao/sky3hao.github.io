@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ETCD原理与使用 - 老鹰之歌的博客</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="老鹰之歌" />
+  <meta name="description" content="1. ETCD docker-compose 部署 1.1 etcd集群的部署方式 静态配置 比较适用于线下环境，集群节点个数已知，各节点地址也已知的情况。一旦集群启动后，后续“&amp;ndash;" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<link rel="canonical" href="https://sky3hao.github.io/post/storage/storage-etcd/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.de22abc00de44766eebd1054fd9e0b254b071f89d5019044f893c484a9249a8d.css" integrity="sha256-3iKrwA3kR2buvRBU/Z4LJUsHH4nVAZBE&#43;JPEhKkkmo0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+
+
+<meta property="og:title" content="ETCD原理与使用" />
+<meta property="og:description" content="1. ETCD docker-compose 部署 1.1 etcd集群的部署方式 静态配置 比较适用于线下环境，集群节点个数已知，各节点地址也已知的情况。一旦集群启动后，后续“&ndash;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sky3hao.github.io/post/storage/storage-etcd/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-12-07T13:01:23+08:00" />
+<meta property="article:modified_time" content="2021-12-07T14:05:23+08:00" />
+
+<meta itemprop="name" content="ETCD原理与使用">
+<meta itemprop="description" content="1. ETCD docker-compose 部署 1.1 etcd集群的部署方式 静态配置 比较适用于线下环境，集群节点个数已知，各节点地址也已知的情况。一旦集群启动后，后续“&ndash;"><meta itemprop="datePublished" content="2021-12-07T13:01:23+08:00" />
+<meta itemprop="dateModified" content="2021-12-07T14:05:23+08:00" />
+<meta itemprop="wordCount" content="4298">
+<meta itemprop="keywords" content="存储,NoSQL," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ETCD原理与使用"/>
+<meta name="twitter:description" content="1. ETCD docker-compose 部署 1.1 etcd集群的部署方式 静态配置 比较适用于线下环境，集群节点个数已知，各节点地址也已知的情况。一旦集群启动后，后续“&ndash;"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">老鹰之歌的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://sky3hao.github.io/">主页</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://sky3hao.github.io/post/">文章</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://sky3hao.github.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://sky3hao.github.io/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://sky3hao.github.io/about/">关于</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      老鹰之歌的博客
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://sky3hao.github.io/">主页</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://sky3hao.github.io/post/">文章</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://sky3hao.github.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://sky3hao.github.io/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://sky3hao.github.io/about/">关于</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight wallpaper">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">ETCD原理与使用</h1>
+      
+
+      <div class="post-meta">
+  <div class="post-meta-author">
+    by
+      <a href="/about">
+        <span class="post-meta-author-name">
+          老鹰之歌
+        </span>
+      </a>
+    
+  </div>
+
+  <div class="post-meta-time">
+    <time datetime="2021-12-07">
+      2021-12-07
+    </time>
+  </div>
+
+  
+
+
+  <div class="post-meta__right">
+    
+
+    <div class="post-meta-category">
+        <a href="https://sky3hao.github.io/categories/%E5%AD%98%E5%82%A8/"> 存储 </a>
+          
+      </div>
+
+
+    
+    
+
+
+    
+    
+  </div>
+</div>
+
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-etcd-docker-compose-部署">1. ETCD docker-compose 部署</a>
+      <ul>
+        <li><a href="#11-etcd集群的部署方式">1.1 etcd集群的部署方式</a></li>
+        <li><a href="#12-下面用docker-compose-使用静态配置部署">1.2 下面用docker-compose 使用静态配置部署:</a></li>
+        <li><a href="#13-一些简单的etcd操作">1.3 一些简单的etcd操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-etcd实现原理">2. etcd实现原理</a>
+      <ul>
+        <li><a href="#21-架构">2.1 架构</a></li>
+        <li><a href="#22-概念词汇表">2.2 概念词汇表</a></li>
+        <li><a href="#23-一致性raft算法">2.3 一致性raft算法</a></li>
+        <li><a href="#24-一致性实现">2.4 一致性实现</a></li>
+        <li><a href="#25-watch机制">2.5 watch机制</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-服务注册与发现">3. 服务注册与发现</a>
+      <ul>
+        <li><a href="#31-注册与发现的作用">3.1 注册与发现的作用</a></li>
+        <li><a href="#32-go-如何-用-etcd">3.2 GO 如何 用 ETCD</a></li>
+        <li><a href="#33-服务发现示例">3.3 服务发现示例</a></li>
+        <li><a href="#34-服务注册示例">3.4 服务注册示例</a></li>
+        <li><a href="#35-节点管理">3.5 节点管理</a></li>
+        <li><a href="#36-测试效果">3.6 测试效果</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+
+    
+    <div class="post-content">
+      <h2 id="1-etcd-docker-compose-部署">1. ETCD docker-compose 部署</h2>
+<h3 id="11-etcd集群的部署方式">1.1 etcd集群的部署方式</h3>
+<ol>
+<li>静态配置
+<ul>
+<li>比较适用于线下环境，集群节点个数已知，各节点地址也已知的情况。一旦集群启动后，后续“&ndash;initial-cluster”参数的更新将会被忽略。</li>
+<li>同一个集群各个节点的配置参数需要保持相同。
+　　</li>
+</ul>
+</li>
+<li>服务发现
+<ol>
+<li>etcd自发现模式
+<ul>
+<li>新集群的每个etcd节点通过现有的etcd集群进行自注册，一旦所有的member都注册完成，就组成了一个新集群。</li>
+<li>新集群节点启动时使用参数 &ndash;discovery 指定服务发现URL，这个URL可以是你自己现有的etcd集群节点地址，也可以使用etcd公共的服务发现，但首先需要先设置集群的节点数量。</li>
+</ul>
+</li>
+<li>DNS自发现模式
+<ul>
+<li>etcd还支持使用DNS的SRV记录进行服务发现，启动集群。此方式需要先在DNS服务器上进行相应的配置，然后在etcd集群节点启动时使用参数 &ndash;discovery-srv 指定DNS服务器域名。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="12-下面用docker-compose-使用静态配置部署">1.2 下面用docker-compose 使用静态配置部署:</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">etcd1</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#34;quay.io/coreos/etcd:v3.4.7&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entrypoint</span>: <span style="color:#ae81ff">/usr/local/bin/etcd</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">command</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--name=etcd1&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--data-dir=/etcd_data&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-advertise-peer-urls=http://etcd1:2380&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--listen-peer-urls=http://0.0.0.0:2380&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--listen-client-urls=http://0.0.0.0:2379&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--advertise-client-urls=http://etcd1:2379&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-cluster-token=mys1cr2tt1k7n&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--heartbeat-interval=250&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--election-timeout=1250&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-cluster=etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-cluster-state=new&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">2379</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./store/etcd1/data:/etcd_data</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">etcd2</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#34;quay.io/coreos/etcd:v3.4.7&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entrypoint</span>: <span style="color:#ae81ff">/usr/local/bin/etcd</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">command</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--name=etcd2&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--data-dir=/etcd_data&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-advertise-peer-urls=http://etcd2:2380&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--listen-peer-urls=http://0.0.0.0:2380&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--listen-client-urls=http://0.0.0.0:2379&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--advertise-client-urls=http://etcd2:2379&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-cluster-token=mys1cr2tt1k7n&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--heartbeat-interval=250&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--election-timeout=1250&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-cluster=etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-cluster-state=new&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">2379</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./store/etcd2/data:/etcd_data</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">etcd3</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#34;quay.io/coreos/etcd:v3.4.7&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entrypoint</span>: <span style="color:#ae81ff">/usr/local/bin/etcd</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">command</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--name=etcd3&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--data-dir=/etcd_data&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-advertise-peer-urls=http://etcd3:2380&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--listen-peer-urls=http://0.0.0.0:2380&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--listen-client-urls=http://0.0.0.0:2379&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--advertise-client-urls=http://etcd3:2379&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-cluster-token=mys1cr2tt1k7n&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--heartbeat-interval=250&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--election-timeout=1250&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-cluster=etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;--initial-cluster-state=new&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">2379</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./store/etcd3/data:/etcd_data</span>
+</span></span></code></pre></div><h3 id="13-一些简单的etcd操作">1.3 一些简单的etcd操作</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker exec -it modern-power-plant_etcd1_1 etcdctl endpoint health
+</span></span><span style="display:flex;"><span>127.0.0.1:2379 is healthy: successfully committed proposal: took <span style="color:#f92672">=</span> 8.8086ms
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ docker exec -it modern-power-plant_etcd2_1 etcdctl put secret <span style="color:#e6db74">&#39;code123&#39;</span>
+</span></span><span style="display:flex;"><span>OK
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ docker exec -it modern-power-plant_etcd3_1 etcdctl get secret
+</span></span><span style="display:flex;"><span>secret
+</span></span><span style="display:flex;"><span>code123
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ docker exec -it modern-power-plant_etcd1_1 etcdctl --write-out<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;json&#34;</span> get secret
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;header&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;cluster_id&#34;</span>:16374521671211604340,<span style="color:#e6db74">&#34;member_id&#34;</span>:7931496631163773866,<span style="color:#e6db74">&#34;revision&#34;</span>:3,<span style="color:#e6db74">&#34;raft_term&#34;</span>:15<span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;kvs&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;c2VjcmV0&#34;</span>,<span style="color:#e6db74">&#34;create_revision&#34;</span>:2,<span style="color:#e6db74">&#34;mod_revision&#34;</span>:3,<span style="color:#e6db74">&#34;version&#34;</span>:2,<span style="color:#e6db74">&#34;value&#34;</span>:<span style="color:#e6db74">&#34;Y29kZTEyMw==&#34;</span><span style="color:#f92672">}]</span>,<span style="color:#e6db74">&#34;count&#34;</span>:1<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ docker exec -it modern-power-plant_etcd3_1 etcdctl --write-out<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table&#34;</span> member list
+</span></span></code></pre></div><h2 id="2-etcd实现原理">2. etcd实现原理</h2>
+<h3 id="21-架构">2.1 架构</h3>
+<p><img src="/storage/5525735-078bf1d0626f4a82.webp" alt=""></p>
+<p>从etcd的架构图中我们可以看到，etcd主要分为四个部分。</p>
+<ul>
+<li>HTTP Server： 用于处理用户发送的API请求以及其它etcd节点的同步与心跳信息请求。</li>
+<li>Store：用于处理etcd支持的各类功能的事务，包括数据索引、节点状态变更、监控与反馈、事件处理与执行等等，是etcd对用户提供的大多数API功能的具体实现。</li>
+<li>Raft：Raft强一致性算法的具体实现，是etcd的核心。</li>
+<li>WAL：Write Ahead Log（预写式日志），是etcd的数据存储方式。除了在内存中存有所有数据的状态以及节点的索引以外，etcd就通过WAL进行持久化存储。WAL中，所有的数据提交前都会事先记录日志。Snapshot是为了防止数据过多而进行的状态快照；Entry表示存储的具体日志内容。</li>
+</ul>
+<p>通常，一个用户的请求发送过来，会经由HTTP Server转发给Store进行具体的事务处理，如果涉及到节点的修改，则交给Raft模块进行状态的变更、日志的记录，然后再同步给别的etcd节点以确认数据提交，最后进行数据的提交，再次同步。</p>
+<h3 id="22-概念词汇表">2.2 概念词汇表</h3>
+<ul>
+<li>Raft：etcd所采用的保证分布式系统强一致性的算法。</li>
+<li>Node：一个Raft状态机实例。</li>
+<li>Member： 一个etcd实例。它管理着一个Node，并且可以为客户端请求提供服务。</li>
+<li>Cluster：由多个Member构成可以协同工作的etcd集群。</li>
+<li>Peer：对同一个etcd集群中另外一个Member的称呼。</li>
+<li>Client： 向etcd集群发送HTTP请求的客户端。</li>
+<li>WAL：预写式日志，etcd用于持久化存储的日志格式。</li>
+<li>snapshot：etcd防止WAL文件过多而设置的快照，存储etcd数据状态。</li>
+<li>Proxy：etcd的一种模式，为etcd集群提供反向代理服务。</li>
+<li>Leader：Raft算法中通过竞选而产生的处理所有数据提交的节点。</li>
+<li>Follower：竞选失败的节点作为Raft中的从属节点，为算法提供强一致性保证。</li>
+<li>Candidate：当Follower超过一定时间接收不到Leader的心跳时转变为Candidate开始竞选。</li>
+<li>Term：某个节点成为Leader到下一次竞选时间，称为一个Term。</li>
+<li>Index：数据项编号。Raft中通过Term和Index来定位数据。</li>
+</ul>
+<h3 id="23-一致性raft算法">2.3 一致性raft算法</h3>
+<p>一致性要学习的是raft协议，对于raft协议，有这么几个角色</p>
+<p><img src="/storage/6301972-e54bbfea1c8f65e7.webp" alt=""></p>
+<ul>
+<li>Leader，有同步日志的特权，定时广播心跳给follower</li>
+<li>Follwer，跟随者，接收从leader发出的日志</li>
+<li>Candidate，竞选者</li>
+</ul>
+<p>当leader失效的时候，Follower接收leader的心跳超时，就会转化为candidate节点，投票给自己，然后投票给其它节点，如果它获取到超过半数节点支持，就会成为新的leader。为了避免同时发起投票都成为leader节点，每个candidate发起投票使用了一段随机时间。</p>
+<h3 id="24-一致性实现">2.4 一致性实现</h3>
+<p><img src="/storage/6301972-8d6e4a61656c1e8a.webp" alt=""></p>
+<p>一致性raft实现需要很多模块的配合：</p>
+<ul>
+<li>接口层，使用grpc作为rpc机制</li>
+<li>逻辑层，预先检查模块，包括Quota和Auth，其中Quota用来检查数据库配额，如果超过数据库配额，就会直接返回失败；Auth表示鉴权，如果鉴权失败，会返回错误</li>
+<li>Raft层，是一致性的实现</li>
+<li>逻辑层，kvserver，字面上理解，key-value server</li>
+<li>存储层，wal，当有变化时，先写日志到wal，避免丢失，当大多数节点确认后，才会将日志写入boltdb状态机</li>
+<li>存储层，使用mvcc机制，使用reeindex作为索引，boltdb作为数据库。</li>
+</ul>
+<p>一个etcd，包含的东西可不少，对于关键的技术点我们需要注意。</p>
+<ul>
+<li>kvServer是交互的核心，可以与k8s的apiServer对比，这两个组件都是交互核心，所有其它模块都不会直接交互，都会通过这个交互核心来交互。这是etcd和k8s设计的一个重要点。用控制和逻辑思维来认知，就是kvServer是控制，其它模块都是逻辑模块，逻辑模块只和控制模块交互。</li>
+<li>grpc，grpc是google的开源rpc接口，可以支持多语言交互。grpc支持protobuffer和json格式，默认是protobuffer，protobuffer定义idl，客户端只要拿到idl，编译生产自己语言客户端，就可以实现对服务器的访问。</li>
+<li>wal日志，wal是在很多组件里面都采用的一个东西，使用了lsm存储。</li>
+<li>mvcc机制，mysql数据库也是mvcc机制，因为实际数据是写文件，当数据变化的时候，不是立即删除，而是新产生一个版本号数据存储起来，删除的时候只是标记一下。这样可以访问到历史数据，如果数据太大，就compact进行压缩，把无效数据或者超过限制数据删掉，这是mvcc的设计机制。</li>
+<li>treeindex，底层实现是B+树，B+树的目录节点不存数据，只有叶子节点存储数据，这样保障了数据存储的连续性，读取的时候可以连续读取，可以进行范围读取。</li>
+<li>boltdb这个数据库使用了mmap机制，从而减少了一次拷贝，直接将文件映射到内存，如果内存修改了，操作系统会定义将脏数据刷到文件。</li>
+</ul>
+<p>为什么需要这么多模块，是raft协议的要求，当发起put操作时，先把日志写入wal并发送到follower，当follower半数承认后，才会把数据提交到boltdb写入。</p>
+<h3 id="25-watch机制">2.5 watch机制</h3>
+<p>watch机制是核心功能</p>
+<p><img src="/storage/6301972-7e065b06dad335bc.webp" alt=""></p>
+<p>通过上图可以看到，一个gprc流可以支持多个watch操作，这都是因为grpc使用了http2，http2是可以支持流式处理，不需要每个watch一个链接，所以能支持海量watch。watch是k8s控制器的核心依赖。</p>
+<h2 id="3-服务注册与发现">3. 服务注册与发现</h2>
+<h3 id="31-注册与发现的作用">3.1 注册与发现的作用</h3>
+<ul>
+<li>
+<p>管理实例信息</p>
+<p>管理当前注册到服务注册与发现中心的微服务实例元数据信息，这些信息包括服务实例的服务名，IP地址，端口号，服务状态和服务描述等等信息</p>
+</li>
+<li>
+<p>健康检查</p>
+<p>服务注册与发现中心会与已经注册 ok 的微服务实例维持心跳，定期检查注册表中的服务是否正常在线，并且会在过程中剔除掉无效的服务实例信息</p>
+</li>
+<li>
+<p>提供服务发现的作用</p>
+<p>如一个人服务需要调用服务注册与发现中心中的微服务实例，可以通过服务注册与发现中心获取到其具体的服务实例信息</p>
+</li>
+</ul>
+<h3 id="32-go-如何-用-etcd">3.2 GO 如何 用 ETCD</h3>
+<p>我们在使用 ETCD 的时候 ，我们就直接把 ETCD 当做是一个配置中心即可 ，系统内的所有服务的配置都会在ETCD上进行管理;</p>
+<p>我们服务启动的时候，会主动从 ETCD 上获取一次配置信息, 并且在 ETCD 节点上注册一个 Watcher 并等待;</p>
+<p>那么以后自身服务配置信息改变的时候，ETCD 就会知道某个服务配置改变了，且会将该变动的情况通知到这个服务的订阅者, 这样子就达到了其他服务获取最新配置的目的了;</p>
+<h3 id="33-服务发现示例">3.3 服务发现示例</h3>
+<p>在微服务中各个服务都是无状态的，不会在配置中写死上下游的访问地址，所以需要有一个地方去维护各个节点的信息。</p>
+<p>服务起来的时候会去注册中心拉取其他服务的节点信息，并且把自己的信息推送到注册中心。
+当有运行的服务下线或者出现问题的时候，把自己从配置中心摘除，或者配置中心来检测服务状态（心跳、健康检查的协议）来摘除服务。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/coreos/etcd/clientv3&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Discovery</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cli</span>       <span style="color:#f92672">*</span><span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">Client</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">info</span>      <span style="color:#f92672">*</span><span style="color:#a6e22e">NodeInfo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">nodes</span>     <span style="color:#f92672">*</span><span style="color:#a6e22e">NodesManager</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewDiscovery</span>(<span style="color:#a6e22e">info</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">NodeInfo</span>, <span style="color:#a6e22e">conf</span> <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">Config</span>, <span style="color:#a6e22e">mgr</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">NodesManager</span>) (<span style="color:#a6e22e">dis</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Discovery</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Discovery</span>{}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">info</span> = <span style="color:#a6e22e">info</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">mgr</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;[Discovery] mgr == nil&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">nodes</span> = <span style="color:#a6e22e">mgr</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">cli</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">conf</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">d</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Discovery</span>) <span style="color:#a6e22e">pull</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">kv</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">NewKV</span>(<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">cli</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">kv</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#e6db74">&#34;discovery/&#34;</span>, <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">WithPrefix</span>())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;[Discovery] kv.Get err:%+v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Kvs</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">node</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">NodeInfo</span>{}
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">Value</span>, <span style="color:#a6e22e">node</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;[Discovery] json.Unmarshal err:%+v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">nodes</span>.<span style="color:#a6e22e">AddNode</span>(<span style="color:#a6e22e">node</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;[Discovery] pull node:%+v&#34;</span>, <span style="color:#a6e22e">node</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Discovery</span>) <span style="color:#a6e22e">watch</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">watcher</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">NewWatcher</span>(<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">cli</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">watchChan</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">watcher</span>.<span style="color:#a6e22e">Watch</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#e6db74">&#34;discovery&#34;</span>, <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">WithPrefix</span>())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">select</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">resp</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">watchChan</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">watchEvent</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Events</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Discovery</span>) <span style="color:#a6e22e">watchEvent</span>(<span style="color:#a6e22e">evs</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">Event</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ev</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">evs</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">ev</span>.<span style="color:#a6e22e">Type</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">EventTypePut</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">node</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">NodeInfo</span>{}
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">ev</span>.<span style="color:#a6e22e">Kv</span>.<span style="color:#a6e22e">Value</span>, <span style="color:#a6e22e">node</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;[Discovery] json.Unmarshal err:%+v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">nodes</span>.<span style="color:#a6e22e">AddNode</span>(<span style="color:#a6e22e">node</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;[Discovery] new node:%s&#34;</span>,string(<span style="color:#a6e22e">ev</span>.<span style="color:#a6e22e">Kv</span>.<span style="color:#a6e22e">Value</span>)))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">EventTypeDelete</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">nodes</span>.<span style="color:#a6e22e">DelNode</span>(string(<span style="color:#a6e22e">ev</span>.<span style="color:#a6e22e">Kv</span>.<span style="color:#a6e22e">Key</span>))
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;[Discovery] del node:%s data:%s&#34;</span>,string(<span style="color:#a6e22e">ev</span>.<span style="color:#a6e22e">Kv</span>.<span style="color:#a6e22e">Key</span>),string(<span style="color:#a6e22e">ev</span>.<span style="color:#a6e22e">Kv</span>.<span style="color:#a6e22e">Value</span>)))
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="34-服务注册示例">3.4 服务注册示例</h3>
+<p>在etcd中服务的注册使用租约（lease）来实现，设置租约的时候按需求设置租约的时间（ttl），类似redis中的EXPIRE key，再把服务自身的节点等信息写到对应的key中。然后定时去调用KeepAliveOnce来保持租约，如果在期间KeepAliveOnce的消息丢失或者延迟大于这个租约的ttl则etcd中将会把这个节点的信息删除，恢复正常时重新发起租约流程。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/coreos/etcd/clientv3&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/coreos/etcd/etcdserver/api/v3rpc/rpctypes&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">_ttl</span> = <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Register</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cli</span>       <span style="color:#f92672">*</span><span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">Client</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">leaseId</span>   <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">LeaseID</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lease</span>     <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">Lease</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">info</span>      <span style="color:#f92672">*</span><span style="color:#a6e22e">NodeInfo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">closeChan</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewRegister</span>(<span style="color:#a6e22e">info</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">NodeInfo</span>, <span style="color:#a6e22e">conf</span> <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">Config</span>) (<span style="color:#a6e22e">reg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Register</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Register</span>{}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">closeChan</span> = make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">error</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">info</span> = <span style="color:#a6e22e">info</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">cli</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">conf</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">r</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Register</span>) <span style="color:#a6e22e">Run</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dur</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">timer</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">NewTicker</span>(<span style="color:#a6e22e">dur</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">register</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">select</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">timer</span>.<span style="color:#a6e22e">C</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">keepAlive</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">closeChan</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">goto</span> <span style="color:#a6e22e">EXIT</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">EXIT</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;[Register] Run exit...&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Register</span>) <span style="color:#a6e22e">Stop</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">revoke</span>()
+</span></span><span style="display:flex;"><span>    close(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">closeChan</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Register</span>) <span style="color:#a6e22e">register</span>() (<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">leaseId</span> = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">kv</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">NewKV</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">cli</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">lease</span> = <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">NewLease</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">cli</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">leaseResp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">lease</span>.<span style="color:#a6e22e">Grant</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">_ttl</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrapf</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;[Register] register Grant err&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">info</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">kv</span>.<span style="color:#a6e22e">Put</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">info</span>.<span style="color:#a6e22e">UniqueId</span>, string(<span style="color:#a6e22e">data</span>), <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">WithLease</span>(<span style="color:#a6e22e">leaseResp</span>.<span style="color:#a6e22e">ID</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrapf</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;[Register] register kv.Put err %s-%+v&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">info</span>.<span style="color:#a6e22e">Name</span>, string(<span style="color:#a6e22e">data</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">leaseId</span> = <span style="color:#a6e22e">leaseResp</span>.<span style="color:#a6e22e">ID</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Register</span>) <span style="color:#a6e22e">keepAlive</span>() (<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">lease</span>.<span style="color:#a6e22e">KeepAliveOnce</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">leaseId</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 租约丢失，重新注册
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">rpctypes</span>.<span style="color:#a6e22e">ErrLeaseNotFound</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">register</span>()
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">err</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrapf</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;[Register] keepAlive err&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;[Register] keepalive... leaseId:%+v&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">leaseId</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Register</span>) <span style="color:#a6e22e">revoke</span>() (<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">cli</span>.<span style="color:#a6e22e">Revoke</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">leaseId</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrapf</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;[Register] revoke err&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;[Register] revoke node:%+v&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">leaseId</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="35-节点管理">3.5 节点管理</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">NodeInfo</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Addr</span>     <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Name</span>     <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">UniqueId</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">NodesManager</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">RWMutex</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// &lt;name,&lt;id,node&gt;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">nodes</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">NodeInfo</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewNodeManager</span>() (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">NodesManager</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">NodesManager</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">nodes</span>: <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">NodeInfo</span>{},
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">NodesManager</span>) <span style="color:#a6e22e">AddNode</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">NodeInfo</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Lock</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Unlock</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">exist</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">nodes</span>[<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">Name</span>]; !<span style="color:#a6e22e">exist</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">nodes</span>[<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">Name</span>] = <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">NodeInfo</span>{}
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">nodes</span>[<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">Name</span>][<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">UniqueId</span>] = <span style="color:#a6e22e">node</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">NodesManager</span>) <span style="color:#a6e22e">DelNode</span>(<span style="color:#a6e22e">id</span> <span style="color:#66d9ef">string</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sli</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Split</span>(<span style="color:#a6e22e">id</span>,<span style="color:#e6db74">&#34;/&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sli</span>[len(<span style="color:#a6e22e">sli</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Lock</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Unlock</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">exist</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">nodes</span>[<span style="color:#a6e22e">name</span>]; <span style="color:#a6e22e">exist</span> {
+</span></span><span style="display:flex;"><span>        delete(<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">nodes</span>[<span style="color:#a6e22e">name</span>], <span style="color:#a6e22e">id</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">NodesManager</span>) <span style="color:#a6e22e">Pick</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">NodeInfo</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">RLock</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">RUnlock</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nodes</span>, <span style="color:#a6e22e">exist</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">nodes</span>[<span style="color:#a6e22e">name</span>]; !<span style="color:#a6e22e">exist</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 纯随机取节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">idx</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Intn</span>(len(<span style="color:#a6e22e">nodes</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">nodes</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">idx</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">v</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">idx</span><span style="color:#f92672">--</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">NodesManager</span>) <span style="color:#a6e22e">Dump</span> () {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">nodes</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">kk</span>, <span style="color:#a6e22e">vv</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">v</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;[NodesManager] Name:%s Id:%s Node:%+v&#34;</span>, <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">kk</span>, <span style="color:#a6e22e">vv</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="36-测试效果">3.6 测试效果</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> ( 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/coreos/etcd/clientv3&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">nodes</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewNodeManager</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dis</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewDiscovery</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">NodeInfo</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;server name/aaaa&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Addr</span>: <span style="color:#e6db74">&#34;127.0.0.1:8888&#34;</span>,
+</span></span><span style="display:flex;"><span>    }, <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">Config</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Endpoints</span>:   []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;tx.cxc233.com:8888&#34;</span>},
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">DialTimeout</span>: <span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>,
+</span></span><span style="display:flex;"><span>    }, <span style="color:#a6e22e">nodes</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reg</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewRegister</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">NodeInfo</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;testsvr&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Addr</span>: <span style="color:#e6db74">&#34;127.0.0.1:8888&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">UniqueId</span>: <span style="color:#e6db74">&#34;discovery/testsvr/instance_id/aaabbbccc&#34;</span>,
+</span></span><span style="display:flex;"><span>    }, <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">Config</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Endpoints</span>:   []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;tx.cxc233.com:8888&#34;</span>},
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">DialTimeout</span>: <span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>,
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reg2</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewRegister</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">NodeInfo</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;testsvr&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Addr</span>: <span style="color:#e6db74">&#34;127.0.0.1:8888&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">UniqueId</span>: <span style="color:#e6db74">&#34;discovery/testsvr/instance_id/testqqqqq&#34;</span>,
+</span></span><span style="display:flex;"><span>    }, <span style="color:#a6e22e">clientv3</span>.<span style="color:#a6e22e">Config</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Endpoints</span>:   []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;tx.cxc233.com:8888&#34;</span>},
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">DialTimeout</span>: <span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>,
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">reg</span>.<span style="color:#a6e22e">Run</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dis</span>.<span style="color:#a6e22e">pull</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">dis</span>.<span style="color:#a6e22e">watch</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">reg2</span>.<span style="color:#a6e22e">Run</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">nodes</span>.<span style="color:#a6e22e">Dump</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;[Main] nodes pick:%+v&#34;</span>,<span style="color:#a6e22e">nodes</span>.<span style="color:#a6e22e">Pick</span>(<span style="color:#e6db74">&#34;testsvr&#34;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+    </div>
+
+    
+    
+
+
+
+    
+    
+
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://sky3hao.github.io/tags/%E5%AD%98%E5%82%A8/">存储</a>
+            <a href="https://sky3hao.github.io/tags/nosql/">NoSQL</a>
+            
+        </div>
+
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/go/go-gops/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Gops</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/go/unit/go-unit-goconvy/">
+            <span class="next-text nav-default">单元测试-GoConvey</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+    
+
+  
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:sky3hao@gmail.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="http://github.com/sky3hao" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+
+
+<a href="https://sky3hao.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+  
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    2022
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        老鹰之歌
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.fe83e11b4fbc9193d67e2c9db78bad21f8dc59fca0cacd8c1c3bb071bb16a852.js" integrity="sha256-/oPhG0&#43;8kZPWfiydt4utIfjcWfygys2MHDuwcbsWqFI=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
