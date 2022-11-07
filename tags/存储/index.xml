@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>存储 on 老鹰之歌的博客</title>
+    <link>http://localhost:1313/tags/%E5%AD%98%E5%82%A8/</link>
+    <description>Recent content in 存储 on 老鹰之歌的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 07 Nov 2022 13:01:23 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%AD%98%E5%82%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis集群</title>
+      <link>http://localhost:1313/post/storage/storage-redisclustor/</link>
+      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/storage/storage-redisclustor/</guid>
+      <description>Redis支持三种集群方案: 主从复制模式 Sentinel（哨兵）模式 Cluster模式 1. 主从复制模式 客户端可对主数据库进行读写操作，对从数据</description>
+    </item>
+    
+  </channel>
+</rss>

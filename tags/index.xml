@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on 老鹰之歌的博客</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on 老鹰之歌的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 07 Nov 2022 14:05:23 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang</title>
+      <link>http://localhost:1313/tags/golang/</link>
+      <pubDate>Mon, 07 Nov 2022 14:05:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gRPC</title>
+      <link>http://localhost:1313/tags/grpc/</link>
+      <pubDate>Mon, 07 Nov 2022 14:05:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/grpc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>K8S</title>
+      <link>http://localhost:1313/tags/k8s/</link>
+      <pubDate>Mon, 07 Nov 2022 14:02:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/k8s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sevice-mesh</title>
+      <link>http://localhost:1313/tags/sevice-mesh/</link>
+      <pubDate>Mon, 07 Nov 2022 14:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/sevice-mesh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CICD</title>
+      <link>http://localhost:1313/tags/cicd/</link>
+      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/cicd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NoSQL</title>
+      <link>http://localhost:1313/tags/nosql/</link>
+      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/nosql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>unit-test</title>
+      <link>http://localhost:1313/tags/unit-test/</link>
+      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/unit-test/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>存储</title>
+      <link>http://localhost:1313/tags/%E5%AD%98%E5%82%A8/</link>
+      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/%E5%AD%98%E5%82%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gc</title>
+      <link>http://localhost:1313/tags/gc/</link>
+      <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/gc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gmp</title>
+      <link>http://localhost:1313/tags/gmp/</link>
+      <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/gmp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pprof</title>
+      <link>http://localhost:1313/tags/pprof/</link>
+      <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/pprof/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>trace</title>
+      <link>http://localhost:1313/tags/trace/</link>
+      <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/trace/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>数据结构</title>
+      <link>http://localhost:1313/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+      <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

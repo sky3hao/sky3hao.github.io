@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>单元测试-GoMock - 老鹰之歌的博客</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="老鹰之歌" />
+  <meta name="description" content="1. Mock &amp;amp; Stub Mock（模拟）和 Stub（桩）是在测试过程中，模拟外部依赖行为的两种常用的技术手段。通过 Mock 和 Stub 我们不仅可以让测试环境没有外部依赖而" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/go/unit/go-unit-gomock/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.de22abc00de44766eebd1054fd9e0b254b071f89d5019044f893c484a9249a8d.css" integrity="sha256-3iKrwA3kR2buvRBU/Z4LJUsHH4nVAZBE&#43;JPEhKkkmo0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+
+
+<meta property="og:title" content="单元测试-GoMock" />
+<meta property="og:description" content="1. Mock &amp; Stub Mock（模拟）和 Stub（桩）是在测试过程中，模拟外部依赖行为的两种常用的技术手段。通过 Mock 和 Stub 我们不仅可以让测试环境没有外部依赖而" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/go/unit/go-unit-gomock/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-11-07T13:01:23+08:00" />
+<meta property="article:modified_time" content="2022-11-07T15:04:23+08:00" />
+
+<meta itemprop="name" content="单元测试-GoMock">
+<meta itemprop="description" content="1. Mock &amp; Stub Mock（模拟）和 Stub（桩）是在测试过程中，模拟外部依赖行为的两种常用的技术手段。通过 Mock 和 Stub 我们不仅可以让测试环境没有外部依赖而"><meta itemprop="datePublished" content="2022-11-07T13:01:23+08:00" />
+<meta itemprop="dateModified" content="2022-11-07T15:04:23+08:00" />
+<meta itemprop="wordCount" content="2401">
+<meta itemprop="keywords" content="golang,unit-test," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="单元测试-GoMock"/>
+<meta name="twitter:description" content="1. Mock &amp; Stub Mock（模拟）和 Stub（桩）是在测试过程中，模拟外部依赖行为的两种常用的技术手段。通过 Mock 和 Stub 我们不仅可以让测试环境没有外部依赖而"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">老鹰之歌的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/">主页</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/post/">文章</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/about/">关于</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      老鹰之歌的博客
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/">主页</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/post/">文章</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/about/">关于</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight wallpaper">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">单元测试-GoMock</h1>
+      
+
+      <div class="post-meta">
+  <div class="post-meta-author">
+    by
+      <a href="/about">
+        <span class="post-meta-author-name">
+          老鹰之歌
+        </span>
+      </a>
+    
+  </div>
+
+  <div class="post-meta-time">
+    <time datetime="2022-11-07">
+      2022-11-07
+    </time>
+  </div>
+
+  
+
+
+  <div class="post-meta__right">
+    
+
+    <div class="post-meta-category">
+        <a href="http://localhost:1313/categories/golang/"> golang </a>
+          
+      </div>
+
+
+    
+    
+
+
+    
+    
+  </div>
+</div>
+
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-mock--stub">1. Mock &amp; Stub</a></li>
+    <li><a href="#2-gomock介绍">2. GoMock介绍</a>
+      <ul>
+        <li><a href="#21-安装">2.1 安装:</a></li>
+        <li><a href="#22-用法">2.2 用法:</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-写测试用例">3. 写测试用例</a>
+      <ul>
+        <li><a href="#31-步骤">3.1 步骤</a></li>
+        <li><a href="#32-目录">3.2 目录</a></li>
+        <li><a href="#33-interface-方法">3.3 interface 方法</a></li>
+        <li><a href="#34-调用方法">3.4 调用方法</a></li>
+        <li><a href="#35-生成-mock-文件">3.5 生成 mock 文件</a></li>
+        <li><a href="#36-测试用例">3.6 测试用例</a></li>
+        <li><a href="#37-测试">3.7 测试</a></li>
+        <li><a href="#38-其他">3.8 其他</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-查看测试情况">4. 查看测试情况</a>
+      <ul>
+        <li><a href="#41-测试覆盖率">4.1 测试覆盖率</a></li>
+        <li><a href="#42-可视化界面">4.2 可视化界面</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-更多">5. 更多</a>
+      <ul>
+        <li><a href="#51-常用-mock-方法">5.1 常用 mock 方法</a></li>
+        <li><a href="#52-生成多个-mock-文件">5.2 生成多个 mock 文件</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+
+    
+    <div class="post-content">
+      <h2 id="1-mock--stub">1. Mock &amp; Stub</h2>
+<p>Mock（模拟）和 Stub（桩）是在测试过程中，模拟外部依赖行为的两种常用的技术手段。通过 Mock 和 Stub 我们不仅可以让测试环境没有外部依赖而且还可以模拟一些异常行为，普遍来说，我们遇到最常见的依赖无非下面几种：</p>
+<ol>
+<li>网络依赖——函数执行依赖于网络请求，比如第三方http-api，rpc服务，消息队列等等</li>
+<li>数据库依赖</li>
+<li>I/O依赖</li>
+</ol>
+<p>当然，还有可能是依赖还未开发完成的功能模块。但是处理方法都是大同小异的——抽象成接口，通过mock和stub进行模拟测试。</p>
+<p>在Go语言中，可以这样描述 Mock 和 Stub：</p>
+<ul>
+<li>Mock：在测试包中创建一个结构体，满足某个外部依赖的接口 interface{}</li>
+<li>Stub：在测试包中创建一个模拟方法，用于替换生成代码中的方法</li>
+</ul>
+<p>Stub 可以理解为 Mock 的子集，Mock 更强大一些：</p>
+<ul>
+<li>mock可以验证实现过程，验证某个函数是否被执行，被执行几次</li>
+<li>mock可以依条件生效，比如传入特定参数，才会使mock效果生效</li>
+<li>mock可以指定返回结果</li>
+<li>当mock指定任何参数都返回固定的结果时，它等于stub</li>
+</ul>
+<h2 id="2-gomock介绍">2. GoMock介绍</h2>
+<p>GoMock 是由 Golang 官方开发维护的测试框架，实现了较为完整的基于 interface 的 Mock 功能。
+GoMock 测试框架包含了 <code>GoMock</code>包和<code>mockgen</code>工具两部分:</p>
+<ul>
+<li>其中<code>GoMock</code>包完成对桩对象生命周期的管理</li>
+<li><code>mockgen</code>工具用来生成 interface 对应的 Mock 类源文件。</li>
+</ul>
+<h3 id="21-安装">2.1 安装:</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ go get -u github.com/golang/mock/gomock
+</span></span><span style="display:flex;"><span>$ go install github.com/golang/mock/mockgen
+</span></span></code></pre></div><h3 id="22-用法">2.2 用法:</h3>
+<p>在 mockgen 命令中，支持两种生成模式：</p>
+<ul>
+<li>
+<p>source：从源文件生成 mock 接口（通过 -source 启用）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>mockgen -source<span style="color:#f92672">=</span>foo.go <span style="color:#f92672">[</span>other options<span style="color:#f92672">]</span>
+</span></span></code></pre></div></li>
+<li>
+<p>reflect：通过使用反射程序来生成 mock 接口。它通过传递两个非标志参数来启用：导入路径和逗号分隔的接口列表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>mockgen database/sql/driver Conn,Driver
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="3-写测试用例">3. 写测试用例</h2>
+<h3 id="31-步骤">3.1 步骤</h3>
+<ol>
+<li>想清楚整体逻辑</li>
+<li>定义想要（模拟）依赖项的 interface（接口）</li>
+<li>使用 mockgen 命令对所需 mock 的 interface 生成 mock 文件</li>
+<li>编写单元测试的逻辑，在测试中使用 mock</li>
+<li>进行单元测试的验证</li>
+</ol>
+<h3 id="32-目录">3.2 目录</h3>
+<pre tabindex="0"><code>├── mock
+├── person
+│   └── male.go
+└── user
+    ├── user.go
+    └── user_test.go
+</code></pre><h3 id="33-interface-方法">3.3 interface 方法</h3>
+<p>打开 person/male.go 文件，写入以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">person</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Male</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">id</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="34-调用方法">3.4 调用方法</h3>
+<p>打开 user/user.go 文件，写入以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">user</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;github.com/EDDYCJY/mockd/person&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Person</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Male</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewUser</span>(<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Male</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">User</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{<span style="color:#a6e22e">Person</span>: <span style="color:#a6e22e">p</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">u</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>) <span style="color:#a6e22e">GetUserInfo</span>(<span style="color:#a6e22e">id</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">Person</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">id</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="35-生成-mock-文件">3.5 生成 mock 文件</h3>
+<p>回到 mockd/ 的根目录下，执行以下命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ mockgen -source<span style="color:#f92672">=</span>./person/male.go -destination<span style="color:#f92672">=</span>./mock/male_mock.go -package<span style="color:#f92672">=</span>mock
+</span></span></code></pre></div><p>在执行完毕后，可以发现 <code>mock/</code> 目录下多出了 <code>male_mock.go</code> 文件，这就是 <code>mock</code> 文件。那么命令中的指令又分别有什么用呢？如下：</p>
+<ul>
+<li><code>-source</code>：设置需要模拟（mock）的接口文件</li>
+<li><code>-destination</code>：设置 mock 文件输出的地方，若不设置则打印到标准输出中</li>
+<li><code>-package</code>：设置 mock 文件的包名，若不设置则为 mock_ 前缀加上文件名（如本文的包名会为 mock_person）</li>
+</ul>
+<p>如果有接口文件，则可以通过：</p>
+<ul>
+<li><code>-source</code>： 指定接口文件</li>
+<li><code>-destination</code>: 生成的文件名</li>
+<li><code>-package</code>:生成文件的包名</li>
+<li><code>-imports</code>: 依赖的需要import的包</li>
+<li><code>-aux_files</code>:接口文件不止一个文件时附加文件</li>
+<li><code>-build_flags</code>: 传递给build工具的参数</li>
+</ul>
+<p><a href="https://github.com/golang/mock#running-mockgen">更多参考官方文档</a></p>
+<h3 id="36-测试用例">3.6 测试用例</h3>
+<p>打开 user/user_test.go 文件，写入以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">user</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;testing&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/EDDYCJY/mockd/mock&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/golang/mock/gomock&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestUser_GetUserInfo</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctl</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gomock</span>.<span style="color:#a6e22e">NewController</span>(<span style="color:#a6e22e">t</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ctl</span>.<span style="color:#a6e22e">Finish</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">id</span> <span style="color:#66d9ef">int64</span> = <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mockMale</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mock</span>.<span style="color:#a6e22e">NewMockMale</span>(<span style="color:#a6e22e">ctl</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">gomock</span>.<span style="color:#a6e22e">InOrder</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">mockMale</span>.<span style="color:#a6e22e">EXPECT</span>().<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">id</span>).<span style="color:#a6e22e">Return</span>(<span style="color:#66d9ef">nil</span>),
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">user</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewUser</span>(<span style="color:#a6e22e">mockMale</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">GetUserInfo</span>(<span style="color:#a6e22e">id</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;user.GetUserInfo err: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol>
+<li>gomock.NewController：返回 gomock.Controller，它代表 mock 生态系统中的顶级控件。定义了 mock 对象的范围、生命周期和期待值。另外它在多个 goroutine 中是安全的</li>
+<li>mock.NewMockMale：创建一个新的 mock 实例</li>
+<li>gomock.InOrder：声明给定的调用应按顺序进行（是对 gomock.After 的二次封装）</li>
+<li>mockMale.EXPECT().Get(id).Return(nil)：这里有三个步骤，EXPECT()返回一个允许调用者设置期望和返回值的对象。Get(id) 是设置入参并调用 mock 实例中的方法。Return(nil) 是设置先前调用的方法出参。简单来说，就是设置入参并调用，最后设置返回值</li>
+<li>NewUser(mockMale)：创建 User 实例，值得注意的是，在这里注入了 mock 对象，因此实际在随后的 user.GetUserInfo(id) 调用（入参：id 为 1）中。它调用的是我们事先模拟好的 mock 方法</li>
+<li>ctl.Finish()：进行 mock 用例的期望值断言，一般会使用 defer 延迟执行，以防止我们忘记这一操作
+7</li>
+</ol>
+<h3 id="37-测试">3.7 测试</h3>
+<p>回到 mockd/ 的根目录下，执行以下命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ go test ./user
+</span></span><span style="display:flex;"><span>ok      github.com/EDDYCJY/mockd/user
+</span></span></code></pre></div><h3 id="38-其他">3.8 其他</h3>
+<h4 id="381-指定返回值">3.8.1 指定返回值</h4>
+<p>如我们的例子，调用Call的Return函数，可以指定接口的返回值：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">mockSpider</span>.<span style="color:#a6e22e">EXPECT</span>().<span style="color:#a6e22e">GetBody</span>().<span style="color:#a6e22e">Return</span>(<span style="color:#e6db74">&#34;go1.8.3&#34;</span>)
+</span></span></code></pre></div><p>这里我们指定返回接口函数GetBody()返回&quot;go1.8.3&quot;。</p>
+<h4 id="382-指定执行次数">3.8.2 指定执行次数</h4>
+<p>有时候我们需要指定函数执行多次，比如接受网络请求的函数，计算其执行了多少次。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">mockSpider</span>.<span style="color:#a6e22e">EXPECT</span>().<span style="color:#a6e22e">Recv</span>().<span style="color:#a6e22e">Return</span>(<span style="color:#66d9ef">nil</span>).<span style="color:#a6e22e">Times</span>(<span style="color:#ae81ff">3</span>)
+</span></span></code></pre></div><p>执行三次Recv函数，这里还可以有另外几种限制：</p>
+<ul>
+<li>AnyTimes() ： 0到多次</li>
+<li>MaxTimes(n int) ：最多执行n次，如果没有设置</li>
+<li>MinTimes(n int) ：最少执行n次，如果没有设置</li>
+</ul>
+<h4 id="383-指定执行顺序">3.8.3 指定执行顺序</h4>
+<p>有时候我们还要指定执行顺序，比如要先执行Init操作，然后才能执行Recv操作。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">initCall</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mockSpider</span>.<span style="color:#a6e22e">EXPECT</span>().<span style="color:#a6e22e">Init</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">mockSpider</span>.<span style="color:#a6e22e">EXPECT</span>().<span style="color:#a6e22e">Recv</span>().<span style="color:#a6e22e">After</span>(<span style="color:#a6e22e">initCall</span>)
+</span></span></code></pre></div><h2 id="4-查看测试情况">4. 查看测试情况</h2>
+<h3 id="41-测试覆盖率">4.1 测试覆盖率</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ go test -cover ./user
+</span></span><span style="display:flex;"><span>ok      github.com/EDDYCJY/mockd/user    <span style="color:#f92672">(</span>cached<span style="color:#f92672">)</span>    coverage: 100.0% of statements
+</span></span></code></pre></div><h3 id="42-可视化界面">4.2 可视化界面</h3>
+<p>生成测试覆盖率的 profile 文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ go test ./... -coverprofile<span style="color:#f92672">=</span>cover.out
+</span></span></code></pre></div><p>利用 profile 文件生成可视化界面</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ go tool cover -html<span style="color:#f92672">=</span>cover.out
+</span></span></code></pre></div><h2 id="5-更多">5. 更多</h2>
+<h3 id="51-常用-mock-方法">5.1 常用 mock 方法</h3>
+<p>调用方法:</p>
+<ul>
+<li>Call.Do()：声明在匹配时要运行的操作</li>
+<li>Call.DoAndReturn()：声明在匹配调用时要运行的操作，并且模拟返回该函数的返回值</li>
+<li>Call.MaxTimes()：设置最大的调用次数为 n 次</li>
+<li>Call.MinTimes()：设置最小的调用次数为 n 次</li>
+<li>Call.AnyTimes()：允许调用次数为 0 次或更多次</li>
+<li>Call.Times()：设置调用次数为 n 次</li>
+</ul>
+<p>参数匹配:</p>
+<ul>
+<li>gomock.Any()：匹配任意值</li>
+<li>gomock.Eq()：通过反射匹配到指定的类型值，而不需要手动设置</li>
+<li>gomock.Nil()：返回 nil</li>
+</ul>
+<h3 id="52-生成多个-mock-文件">5.2 生成多个 mock 文件</h3>
+<p>我们可以利用 <code>go:generate</code> 来完成批量处理的功能</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>go generate <span style="color:#f92672">[</span>-run regexp<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-n<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-v<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-x<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>build flags<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>file.go... | packages<span style="color:#f92672">]</span>
+</span></span></code></pre></div><h4 id="521-修改-interface-方法">5.2.1 修改 interface 方法</h4>
+<p>打开 person/male.go 文件，修改为以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">person</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//go:generate mockgen -destination=../mock/male_mock.go -package=mock github.com/EDDYCJY/mockd/person Male
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Male</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">id</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们关注到 go:generate 这条语句，可分为以下部分：</p>
+<ol>
+<li>声明 //go:generate （注意不要留空格）</li>
+<li>使用 mockgen 命令</li>
+<li>定义 -destination</li>
+<li>定义 -package</li>
+<li>定义 source，此处为 person 的包路径</li>
+<li>定义 interfaces，此处为 Male</li>
+</ol>
+<h4 id="522-重新生成-mock-文件">5.2.2 重新生成 mock 文件</h4>
+<p>回到 mockd/ 的根目录下，执行以下命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ go generate ./...
+</span></span></code></pre></div>
+    </div>
+
+    
+    
+
+
+
+    
+    
+
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://localhost:1313/tags/golang/">golang</a>
+            <a href="http://localhost:1313/tags/unit-test/">unit-test</a>
+            
+        </div>
+
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/go/unit/go-unit-goconvy/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">单元测试-GoConvey</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/go/unit/go-unit-testify/">
+            <span class="next-text nav-default">单元测试-testify</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+    
+
+  
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:sky3hao@gmail.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="http://github.com/sky3hao" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://localhost:1313/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+  
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    2022
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        老鹰之歌
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.fe83e11b4fbc9193d67e2c9db78bad21f8dc59fca0cacd8c1c3bb071bb16a852.js" integrity="sha256-/oPhG0&#43;8kZPWfiydt4utIfjcWfygys2MHDuwcbsWqFI=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>trace on 老鹰之歌的博客</title>
+    <link>http://localhost:1313/tags/trace/</link>
+    <description>Recent content in trace on 老鹰之歌的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 07 Nov 2022 11:01:23 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/trace/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang Trace</title>
+      <link>http://localhost:1313/post/go/go-trace/</link>
+      <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/go/go-trace/</guid>
+      <description>例如 Goroutine 在执行时会做哪些操作？执行/阻塞了多长时间？在什么时候阻止？在哪里被阻止的？谁又锁/解锁了它们？GC 是怎么影响到 Goroutine 的执行的？这些东西用</description>
+    </item>
+    
+  </channel>
+</rss>

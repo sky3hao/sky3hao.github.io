@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>unit-test on 老鹰之歌的博客</title>
+    <link>http://localhost:1313/tags/unit-test/</link>
+    <description>Recent content in unit-test on 老鹰之歌的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 07 Nov 2022 13:01:23 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/unit-test/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>单元测试-GoConvey</title>
+      <link>http://localhost:1313/post/go/unit/go-unit-goconvy/</link>
+      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/go/unit/go-unit-goconvy/</guid>
+      <description>1. 介绍 GoConvey直接与go test集成，提供了很多丰富的断言函数，能够在终端输出可读的彩色测试结果，并且还支持全自动的Web UI。 安装</description>
+    </item>
+    
+    <item>
+      <title>单元测试-GoMock</title>
+      <link>http://localhost:1313/post/go/unit/go-unit-gomock/</link>
+      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/go/unit/go-unit-gomock/</guid>
+      <description>1. Mock &amp;amp; Stub Mock（模拟）和 Stub（桩）是在测试过程中，模拟外部依赖行为的两种常用的技术手段。通过 Mock 和 Stub 我们不仅可以让测试环境没有外部依赖而</description>
+    </item>
+    
+    <item>
+      <title>单元测试-testify</title>
+      <link>http://localhost:1313/post/go/unit/go-unit-testify/</link>
+      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/go/unit/go-unit-testify/</guid>
+      <description>1. 简介 Testify基于gotesting编写，所以语法上、执行命令行与go test完全兼容，只是其是比较清晰的断言定义。它提供 assert 和 require 两种用</description>
+    </item>
+    
+    <item>
+      <title>单元测试-testing</title>
+      <link>http://localhost:1313/post/go/unit/go-unit-testing/</link>
+      <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/go/unit/go-unit-testing/</guid>
+      <description>testing 包被专门用来进行单元测试以及进行自动化测试，打印日志和错误报告。 1. go test工具 go test命令是一个按照一定约定和组织的测试代码的驱动程序</description>
+    </item>
+    
+  </channel>
+</rss>

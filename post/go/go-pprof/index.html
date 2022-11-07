@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Golang PProf - 老鹰之歌的博客</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="老鹰之歌" />
+  <meta name="description" content="1. 概念 1.1 PProf 是什么 在 Go 语言中，PProf 是用于可视化和分析性能分析数据的工具，PProf 以 profile.proto 读取分析样本的集合，并生成报告以可视化并帮助分析数" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/go/go-pprof/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.de22abc00de44766eebd1054fd9e0b254b071f89d5019044f893c484a9249a8d.css" integrity="sha256-3iKrwA3kR2buvRBU/Z4LJUsHH4nVAZBE&#43;JPEhKkkmo0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+
+
+<meta property="og:title" content="Golang PProf" />
+<meta property="og:description" content="1. 概念 1.1 PProf 是什么 在 Go 语言中，PProf 是用于可视化和分析性能分析数据的工具，PProf 以 profile.proto 读取分析样本的集合，并生成报告以可视化并帮助分析数" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/go/go-pprof/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-11-07T11:01:23+08:00" />
+<meta property="article:modified_time" content="2022-11-07T11:01:23+08:00" />
+
+<meta itemprop="name" content="Golang PProf">
+<meta itemprop="description" content="1. 概念 1.1 PProf 是什么 在 Go 语言中，PProf 是用于可视化和分析性能分析数据的工具，PProf 以 profile.proto 读取分析样本的集合，并生成报告以可视化并帮助分析数"><meta itemprop="datePublished" content="2022-11-07T11:01:23+08:00" />
+<meta itemprop="dateModified" content="2022-11-07T11:01:23+08:00" />
+<meta itemprop="wordCount" content="2116">
+<meta itemprop="keywords" content="golang,pprof," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Golang PProf"/>
+<meta name="twitter:description" content="1. 概念 1.1 PProf 是什么 在 Go 语言中，PProf 是用于可视化和分析性能分析数据的工具，PProf 以 profile.proto 读取分析样本的集合，并生成报告以可视化并帮助分析数"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">老鹰之歌的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/">主页</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/post/">文章</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/about/">关于</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      老鹰之歌的博客
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/">主页</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/post/">文章</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/about/">关于</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight wallpaper">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Golang PProf</h1>
+      
+
+      <div class="post-meta">
+  <div class="post-meta-author">
+    by
+      <a href="/about">
+        <span class="post-meta-author-name">
+          老鹰之歌
+        </span>
+      </a>
+    
+  </div>
+
+  <div class="post-meta-time">
+    <time datetime="2022-11-07">
+      2022-11-07
+    </time>
+  </div>
+
+  
+
+
+  <div class="post-meta__right">
+    
+
+    <div class="post-meta-category">
+        <a href="http://localhost:1313/categories/golang/"> golang </a>
+          
+      </div>
+
+
+    
+    
+
+
+    
+    
+  </div>
+</div>
+
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概念">1. 概念</a>
+      <ul>
+        <li><a href="#11-pprof-是什么">1.1 PProf 是什么</a></li>
+        <li><a href="#12-有哪几种采样方式">1.2 有哪几种采样方式</a></li>
+        <li><a href="#13-支持什么使用模式">1.3 支持什么使用模式</a></li>
+        <li><a href="#14-可以做什么">1.4 可以做什么</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-使用">2. 使用</a>
+      <ul>
+        <li><a href="#21-一个简单的例子">2.1 一个简单的例子</a></li>
+        <li><a href="#22-通过浏览器访问">2.2 通过浏览器访问</a></li>
+        <li><a href="#23-通过交互式终端使用">2.3 通过交互式终端使用</a></li>
+        <li><a href="#24-查看可视化界面">2.4 查看可视化界面</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-通过测试用例做剖析">3. 通过测试用例做剖析</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+
+    
+    <div class="post-content">
+      <h2 id="1-概念">1. 概念</h2>
+<h3 id="11-pprof-是什么">1.1 PProf 是什么</h3>
+<p>在 Go 语言中，PProf 是用于可视化和分析性能分析数据的工具，PProf 以 profile.proto 读取分析样本的集合，并生成报告以可视化并帮助分析数据（支持文本和图形报告）。</p>
+<h3 id="12-有哪几种采样方式">1.2 有哪几种采样方式</h3>
+<ul>
+<li><code>runtime/pprof</code>：采集程序（非 Server）的指定区块的运行数据进行分析。</li>
+<li><code>net/http/pprof</code>：基于 HTTP Server 运行，并且可以采集运行时数据进行分析。</li>
+<li><code>go test</code>：通过运行测试用例，并指定所需标识来进行采集。</li>
+</ul>
+<h3 id="13-支持什么使用模式">1.3 支持什么使用模式</h3>
+<ul>
+<li>Report generation：报告生成。</li>
+<li>Interactive terminal use：交互式终端使用。</li>
+<li>Web interface：Web 界面。</li>
+</ul>
+<h3 id="14-可以做什么">1.4 可以做什么</h3>
+<ul>
+<li>CPU Profiling：CPU 分析，按照一定的频率采集所监听的应用程序 CPU（含寄存器）的使用情况，可确定应用程序在主动消耗 CPU 周期时花费时间的位置。</li>
+<li>Memory Profiling：内存分析，在应用程序进行堆分配时记录堆栈跟踪，用于监视当前和历史内存使用情况，以及检查内存泄漏。</li>
+<li>Block Profiling：阻塞分析，记录 Goroutine 阻塞等待同步（包括定时器通道）的位置，默认不开启，需要调用 <code>runtime.SetBlockProfileRate</code> 进行设置。</li>
+<li>Mutex Profiling：互斥锁分析，报告互斥锁的竞争情况，默认不开启，需要调用 <code>runtime.SetMutexProfileFraction</code> 进行设置。</li>
+<li>Goroutine Profiling： Goroutine 分析，可以对当前应用程序正在运行的 Goroutine 进行堆栈跟踪和分析。这项功能在实际排查中会经常用到，因为很多问题出现时的表象就是 Goroutine 暴增，而这时候我们要做的事情之一就是查看应用程序中的 Goroutine 正在做什么事情，因为什么阻塞了，然后再进行下一步。</li>
+</ul>
+<h2 id="2-使用">2. 使用</h2>
+<h3 id="21-一个简单的例子">2.1 一个简单的例子</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;net/http/pprof&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">datas</span> []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;len: %d&#34;</span>, <span style="color:#a6e22e">Add</span>(<span style="color:#e6db74">&#34;go-programming-tour-book&#34;</span>))
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;0.0.0.0:6060&#34;</span>, <span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Add</span>(<span style="color:#a6e22e">str</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">str</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">datas</span> = append(<span style="color:#a6e22e">datas</span>, string(<span style="color:#a6e22e">data</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">datas</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="22-通过浏览器访问">2.2 通过浏览器访问</h3>
+<p>访问 <a href="http://127.0.0.1:6060/debug/pprof/">http://127.0.0.1:6060/debug/pprof/</a></p>
+<p>数据说明:</p>
+<ul>
+<li>allocs：查看过去所有内存分配的样本，访问路径为 $HOST/debug/pprof/allocs。</li>
+<li>block：查看导致阻塞同步的堆栈跟踪，访问路径为 $HOST/debug/pprof/block。</li>
+<li>cmdline： 当前程序的命令行的完整调用路径。</li>
+<li>goroutine：查看当前所有运行的 goroutines 堆栈跟踪，访问路径为 <code>$HOST/debug/pprof/goroutine</code>。</li>
+<li>heap：查看活动对象的内存分配情况， 访问路径为 <code>$HOST/debug/pprof/heap</code>。</li>
+<li>mutex：查看导致互斥锁的竞争持有者的堆栈跟踪，访问路径为 <code>$HOST/debug/pprof/mutex</code>。</li>
+<li>profile： 默认进行 30s 的 CPU Profiling，得到一个分析用的 profile 文件，访问路径为 <code>$HOST/debug/pprof/profile</code>。</li>
+<li>threadcreate：查看创建新 OS 线程的堆栈跟踪，访问路径为 <code>$HOST/debug/pprof/threadcreate</code>。</li>
+</ul>
+<blockquote>
+<p>在部署环境中，我们为了网络安全，通常不会直接对外网暴露 pprof 的相关端口，因此会通过 curl、wget 等方式进行 profile 文件的间接拉取。</p>
+</blockquote>
+<h3 id="23-通过交互式终端使用">2.3 通过交互式终端使用</h3>
+<h4 id="231-cpu-profiling">2.3.1 CPU Profiling</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ go tool pprof http://localhost:6060/debug/pprof/profile<span style="color:#ae81ff">\?</span>seconds<span style="color:#ae81ff">\=</span><span style="color:#ae81ff">60</span>
+</span></span></code></pre></div><p>执行该命令后，需等待 60 秒（可调整 seconds 的值），pprof 会进行 CPU Profiling，结束后将默认进入 pprof 的命令行交互式模式，可以对分析的结果进行查看或导出。</p>
+<p>另外如果你所启动的 HTTP Server 是 TLS 的方式，那么在调用 go tool pprof 时，需要将调用路径改为：<code>go tool pprof https+insecure://localhost:6060/debug/pprof/profile\?seconds\=60</code></p>
+<p>输入 <code>help</code> 获取所有交互命令, 比如<code>top10</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">(</span>pprof<span style="color:#f92672">)</span> top10
+</span></span><span style="display:flex;"><span>Showing nodes accounting <span style="color:#66d9ef">for</span> 36.23s, 97.26% of 37.25s total
+</span></span><span style="display:flex;"><span>Dropped <span style="color:#ae81ff">80</span> nodes <span style="color:#f92672">(</span>cum &lt;<span style="color:#f92672">=</span> 0.19s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Showing top <span style="color:#ae81ff">10</span> nodes out of <span style="color:#ae81ff">34</span>
+</span></span><span style="display:flex;"><span>      flat  flat%   sum%        cum   cum%  Name
+</span></span><span style="display:flex;"><span>    32.63s 87.60% 87.60%     32.70s 87.79%  syscall.syscall
+</span></span><span style="display:flex;"><span>     0.87s  2.34% 89.93%      0.88s  2.36%  runtime.stringtoslicebyte
+</span></span><span style="display:flex;"><span>     0.69s  1.85% 91.79%      0.69s  1.85%  runtime.memmove
+</span></span><span style="display:flex;"><span>     0.52s  1.40% 93.18%      0.52s  1.40%  runtime.nanotime
+</span></span><span style="display:flex;"><span>     ...
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>pprof<span style="color:#f92672">)</span> 
+</span></span></code></pre></div><ul>
+<li>flat：函数自身的运行耗时。</li>
+<li>flat%：函数自身在 CPU 运行耗时总比例。</li>
+<li>sum%：函数自身累积使用 CPU 总比例。</li>
+<li>cum：函数自身及其调用函数的运行总耗时。</li>
+<li>cum%：函数自身及其调用函数的运行耗时总比例。</li>
+<li>Name：函数名。</li>
+</ul>
+<h4 id="232-heap-profiling">2.3.2 Heap Profiling</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ go tool pprof http://localhost:6060/debug/pprof/heap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// inuse_space：分析应用程序的常驻内存占用情况。<span style="color:#f92672">(</span>默认, 跟上面命令一样<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>$ go tool pprof -inuse_space http://localhost:6060/debug/pprof/heap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// alloc_objects：分析应用程序的内存临时分配情况。
+</span></span><span style="display:flex;"><span>$ go tool pprof -alloc_objects http://localhost:6060/debug/pprof/heap
+</span></span></code></pre></div><h4 id="233-goroutine-profiling">2.3.3 Goroutine Profiling</h4>
+<pre tabindex="0"><code>$ go tool pprof http://localhost:6060/debug/pprof/goroutine
+</code></pre><p>在查看 goroutine 时，我们可以使用 <code>traces</code> 命令, 在调用栈上来讲，其展示顺序是自下而上的, 每个调用堆栈信息用 &mdash;&mdash;&mdash;&ndash; 分割，函数方法前的就是指标数据，像 Goroutine Profiling 展示是就是该方法占用的 goroutine 的数量。而 Heap Profiling 展示的就是占用的内存大小</p>
+<h4 id="234-mutex-profiling">2.3.4 Mutex Profiling</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ go tool pprof http://localhost:6061/debug/pprof/mutex
+</span></span></code></pre></div><p>接下来我们可以调用 list 命令，看到指定函数的代码情况（包含特定的指标信息，例如：耗时），若函数名不明确，默认会对函数名进行模糊匹配，例如: list main</p>
+<h4 id="235-block-profiling">2.3.5 Block Profiling</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ go tool pprof http://localhost:6061/debug/pprof/block
+</span></span></code></pre></div><h3 id="24-查看可视化界面">2.4 查看可视化界面</h3>
+<p>接下来我们继续使用上面的示例程序，将其重新运行起来，然后在其它窗口执行下述命令：</p>
+<pre tabindex="0"><code>$ wget http://127.0.0.1:6060/debug/pprof/profile 
+</code></pre><p>默认需要等待 30 秒，执行完毕后可在当前目录下发现采集的文件 profile，针对可视化界面我们有两种方式可进行下一步分析：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ go tool pprof -http<span style="color:#f92672">=</span>:6001 profile 
+</span></span></code></pre></div><p>然后就可以查看各种图表了, 比如火焰图:</p>
+<p><img src="/go/1640340979767.jpg" alt=""></p>
+<h2 id="3-通过测试用例做剖析">3. 通过测试用例做剖析</h2>
+<p>在上面, 我们是通过在应用程序中埋入方法进行采集的，那么还有一种方式，能够更精准的剖析到你所想要分析的流程或函数。</p>
+<p>首先我们将先前所编写的 Add 方法挪到独立的 package 中，命名为 add.go 文件，然后新建 add_test.go 文件，写入如下测试用例代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestAdd</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">Add</span>(<span style="color:#e6db74">&#34;go-programming-tour-book&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkAdd</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Add</span>(<span style="color:#e6db74">&#34;go-programming-tour-book&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在完成代码编写后，我们回到命令行窗口执行如下采集命令：</p>
+<pre tabindex="0"><code>$ go test -bench=. -cpuprofile=cpu.profile
+
+$ go tool pprof 
+</code></pre><p>另外除了对 CPU 进行剖析以外，我们还可以调整选项，对内存情况进行分析，如下采集命令：</p>
+<pre tabindex="0"><code>$ go test -bench=. -memprofile=mem.profile
+</code></pre>
+    </div>
+
+    
+    
+
+
+
+    
+    
+
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://localhost:1313/tags/golang/">golang</a>
+            <a href="http://localhost:1313/tags/pprof/">pprof</a>
+            
+        </div>
+
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/go/go-debug/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Golang GODEBUG</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/go/go-trace/">
+            <span class="next-text nav-default">Golang Trace</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+    
+
+  
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:sky3hao@gmail.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="http://github.com/sky3hao" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://localhost:1313/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+  
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    2022
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        老鹰之歌
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.fe83e11b4fbc9193d67e2c9db78bad21f8dc59fca0cacd8c1c3bb071bb16a852.js" integrity="sha256-/oPhG0&#43;8kZPWfiydt4utIfjcWfygys2MHDuwcbsWqFI=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

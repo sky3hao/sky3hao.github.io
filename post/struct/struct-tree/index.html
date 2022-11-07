@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>数据结构-树 - 老鹰之歌的博客</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="老鹰之歌" />
+  <meta name="description" content="二叉查找树 简介 二叉查找树也称为有序二叉查找树, 满足二叉查找树的一般性质, 是指一棵空树具有如下性质: 任意节点左子树不为空, 则左子树的值均小于根" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/struct/struct-tree/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.de22abc00de44766eebd1054fd9e0b254b071f89d5019044f893c484a9249a8d.css" integrity="sha256-3iKrwA3kR2buvRBU/Z4LJUsHH4nVAZBE&#43;JPEhKkkmo0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+
+
+<meta property="og:title" content="数据结构-树" />
+<meta property="og:description" content="二叉查找树 简介 二叉查找树也称为有序二叉查找树, 满足二叉查找树的一般性质, 是指一棵空树具有如下性质: 任意节点左子树不为空, 则左子树的值均小于根" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/struct/struct-tree/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-11-07T11:01:23+08:00" />
+<meta property="article:modified_time" content="2022-11-07T11:01:23+08:00" />
+
+<meta itemprop="name" content="数据结构-树">
+<meta itemprop="description" content="二叉查找树 简介 二叉查找树也称为有序二叉查找树, 满足二叉查找树的一般性质, 是指一棵空树具有如下性质: 任意节点左子树不为空, 则左子树的值均小于根"><meta itemprop="datePublished" content="2022-11-07T11:01:23+08:00" />
+<meta itemprop="dateModified" content="2022-11-07T11:01:23+08:00" />
+<meta itemprop="wordCount" content="3574">
+<meta itemprop="keywords" content="数据结构," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="数据结构-树"/>
+<meta name="twitter:description" content="二叉查找树 简介 二叉查找树也称为有序二叉查找树, 满足二叉查找树的一般性质, 是指一棵空树具有如下性质: 任意节点左子树不为空, 则左子树的值均小于根"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">老鹰之歌的博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/">主页</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/post/">文章</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/about/">关于</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      老鹰之歌的博客
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/">主页</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/post/">文章</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/about/">关于</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight wallpaper">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">数据结构-树</h1>
+      
+
+      <div class="post-meta">
+  <div class="post-meta-author">
+    by
+      <a href="/about">
+        <span class="post-meta-author-name">
+          老鹰之歌
+        </span>
+      </a>
+    
+  </div>
+
+  <div class="post-meta-time">
+    <time datetime="2022-11-07">
+      2022-11-07
+    </time>
+  </div>
+
+  
+
+
+  <div class="post-meta__right">
+    
+
+    <div class="post-meta-category">
+        <a href="http://localhost:1313/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"> 数据结构 </a>
+          
+      </div>
+
+
+    
+    
+
+
+    
+    
+  </div>
+</div>
+
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#二叉查找树">二叉查找树</a>
+      <ul>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#局限性及应用">局限性及应用</a></li>
+      </ul>
+    </li>
+    <li><a href="#平衡二叉树avl">平衡二叉树(AVL)</a>
+      <ul>
+        <li><a href="#简介-1">简介</a></li>
+        <li><a href="#性质">性质</a></li>
+        <li><a href="#局限性">局限性</a></li>
+        <li><a href="#应用">应用</a></li>
+      </ul>
+    </li>
+    <li><a href="#红黑树">红黑树</a>
+      <ul>
+        <li><a href="#简介-2">简介</a></li>
+        <li><a href="#性质-1">性质</a></li>
+        <li><a href="#应用-1">应用</a></li>
+      </ul>
+    </li>
+    <li><a href="#b树">B树</a>
+      <ul>
+        <li><a href="#简介-3">简介</a></li>
+        <li><a href="#b树的性质">B树的性质</a></li>
+      </ul>
+    </li>
+    <li><a href="#b树-1">B+树</a>
+      <ul>
+        <li><a href="#b树的性质下面提到的都是和b树不相同的性质">B+树的性质(下面提到的都是和B树不相同的性质)</a></li>
+        <li><a href="#特点">特点</a></li>
+        <li><a href="#应用-2">应用　　</a></li>
+        <li><a href="#bb树性能分析">B/B+树性能分析　</a></li>
+        <li><a href="#为什么说btree比b树更适合实际应用中操作系统的文件索引和数据索引">为什么说B+tree比B树更适合实际应用中操作系统的文件索引和数据索引.　　</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+
+    
+    <div class="post-content">
+      <h2 id="二叉查找树">二叉查找树</h2>
+<h3 id="简介">简介</h3>
+<p>二叉查找树也称为有序二叉查找树, 满足二叉查找树的一般性质, 是指一棵空树具有如下性质:</p>
+<ul>
+<li>任意节点左子树不为空, 则左子树的值均小于根节点的值.</li>
+<li>任意节点右子树不为空, 则右子树的值均大于于根节点的值.</li>
+<li>任意节点的左右子树也分别是二叉查找树.</li>
+<li>没有键值相等的节点.</li>
+</ul>
+<h3 id="局限性及应用">局限性及应用</h3>
+<p>一个二叉查找树是由n个节点随机构成, 所以，对于某些情况, 二叉查找树会退化成一个有n个节点的线性链.如下图:
+<img src="/struct/2cha.jpg" alt="2cha"></p>
+<p>b图为一个普通的二叉查找树, 大家看a图, 如果我们的根节点选择是最小或者最大的数, 那么二叉查找树就完全退化成了线性结构.</p>
+<p>因此, 在二叉查找树的基础上, 又出现了AVL树, 红黑树, 它们两个都是基于二叉查找树, 只是在二叉查找树的基础上又对其做了限制.</p>
+<h2 id="平衡二叉树avl">平衡二叉树(AVL)</h2>
+<h3 id="简介-1">简介</h3>
+<p>AVL树是带有平衡条件的二叉查找树, 一般是用平衡因子差值判断是否平衡并通过旋转来实现平衡, 左右子树树高不超过1, 和红黑树相比, 它是严格的平衡二叉树, 平衡条件必须满足(所有节点的左右子树高度差不超过1). 不管我们是执行插入还是删除操作, 只要不满足上面的条件, 就要通过旋转来保持平衡, 而旋转是非常耗时的, 由此我们可以知道AVL树适合用于插入删除次数比较少，但查找多的情况。</p>
+<h3 id="性质">性质</h3>
+<ul>
+<li>非叶子节点最多拥有两个子节点；</li>
+<li>非叶子节值大于左边子节点、小于右边子节点；</li>
+<li>树的左右两边的层级数相差不会大于1;</li>
+<li>没有值相等重复的节点;</li>
+</ul>
+<p><img src="/struct/avl.jpg" alt="avl"></p>
+<p>从上面这张图我们可以看出, 任意节点的左右子树的平衡因子差值都不会大于1.</p>
+<h3 id="局限性">局限性</h3>
+<p>由于维护这种高度平衡所付出的代价比从中获得的效率收益还大, 故而实际的应用不多，更多的地方是用追求局部而不是非常严格整体平衡的红黑树.当然, 如果应用场景中对插入删除不频繁, 只是对查找要求较高, 那么AVL还是较优于红黑树.</p>
+<h3 id="应用">应用</h3>
+<p>Windows NT内核中广泛存在.</p>
+<h2 id="红黑树">红黑树</h2>
+<h3 id="简介-2">简介</h3>
+<p>一种二叉查找树, 也是平衡二叉树, 但在每个节点增加一个存储位表示节点的颜色, 可以是red或black. 通过对任何一条从根到叶子的路径上各个节点着色的方式的限制, 红黑树确保没有一条路径会比其它路径长出两倍.它是一种弱平衡二叉树(由于是若平衡, 可以推出, 相同的节点情况下, AVL树的高度低于红黑树), 相对于要求严格的AVL树来说, 它的旋转次数变少, 所以对于搜索, 插入, 删除操作多的情况下, 我们就用红黑树.</p>
+<h3 id="性质-1">性质</h3>
+<ul>
+<li>每个节点非红即黑.</li>
+<li>根节点是黑的。</li>
+<li>每个叶节点(叶节点即树尾端NUL指针或NULL节点)都是黑的.</li>
+<li>如果一个节点是红的, 那么它的两儿子都是黑的.</li>
+<li>对于任意节点而言, 其到叶子点树NIL指针的每条路径都包含相同数目的黑节点.</li>
+</ul>
+<p>正是因为这些规则，才能保证红黑树的自平衡。最长路径不超过最短路径的2倍。</p>
+<p><img src="/struct/honghei.jpg" alt="honghei"></p>
+<p>每条路径都包含相同的黑节点.</p>
+<h3 id="应用-1">应用</h3>
+<ul>
+<li>广泛用于C++的STL中, map和set都是用红黑树实现的.</li>
+<li>著名的linux进程调度Completely Fair Scheduler, 用红黑树管理进程控制块, 进程的虚拟内存区域都存储在一颗红黑树上, 每个虚拟地址区域都对应红黑树的一个节点, 左指针指向相邻的地址虚拟存储区域, 右指针指向相邻的高地址虚拟地址空间.</li>
+<li>IO多路复用epoll的实现采用红黑树组织管理sockfd，以支持快速的增删改查.</li>
+<li>ngnix中, 用红黑树管理timer, 因为红黑树是有序的, 可以很快的得到距离当前最小的定时器.</li>
+<li>java中TreeMap的实现.</li>
+</ul>
+<h2 id="b树">B树</h2>
+<p>注意B-树就是B树, -只是一个符号.</p>
+<h3 id="简介-3">简介</h3>
+<p>B树和平衡二叉树稍有不同的是B树属于多叉树又名平衡多路查找树（查找路径不只两个）.</p>
+<p>B/B+树是为了磁盘或其它存储设备而设计的一种平衡多路查找树(相对于二叉, B树每个内节点有多个分支), 与红黑树相比, 在相同的的节点的情况下, 一颗B/B+树的高度远远小于红黑树的高度(在下面B/B+树的性能分析中会提到).B/B+树上操作的时间通常由存取磁盘的时间和CPU计算时间这两部分构成, 而CPU的速度非常快, 所以B树的操作效率取决于访问磁盘的次数, 关键字总数相同的情况下B树的高度越小，磁盘I/O所花的时间越少.</p>
+<h3 id="b树的性质">B树的性质</h3>
+<ul>
+<li>定义任意非叶子结点最多只有M个儿子；且M&gt;2；</li>
+<li>根结点的儿子数为[2, M]；</li>
+<li>除根结点以外的非叶子结点的儿子数为[M/2, M]；</li>
+<li>每个结点存放至少M/2-1（取上整）和至多M-1个关键字；（至少2个关键字）</li>
+<li>非叶子结点的关键字个数=指向儿子的指针个数-1；</li>
+<li>非叶子结点的关键字：K[1], K[2], …, K[M-1]；且K[i] &lt; K[i+1]；</li>
+<li>非叶子结点的指针：P[1], P[2], …, P[M]；其中P[1]指向关键字小于K[1]的子树，P[M]指向关键字大于K[M-1]的子树，其它P[i]指向关键字属于(K[i-1], K[i])的子树；</li>
+<li>所有叶子结点位于同一层；</li>
+</ul>
+<p><img src="/struct/b.jpg" alt="b"></p>
+<p>这里只是一个简单的B树, 在实际中B树节点中关键字很多的.上面的图中比如35节点, 35代表一个key(索引)，而小黑块代表的是这个key所指向的内容在内存中实际的存储位置.是一个指针.</p>
+<h2 id="b树-1">B+树</h2>
+<p>B+树是B树的一个升级版，相对于B树来说B+树更充分的利用了节点的空间，让查询速度更加稳定，其速度完全接近于二分法查找。</p>
+<p>B+树是应文件系统所需而产生的一种B树的变形树(文件的目录一级一级索引, 只有最底层的叶子节点(文件)保存数据.), 非叶子节点只保存索引, 不保存实际的数据, 数据都保存在叶子节点中.这不就是文件系统文件的查找吗?我们就举个文件查找的例子:有3个文件夹, a, b, c, a包含b, b包含c, 一个文件yang.c, a, b, c就是索引(存储在非叶子节点), a, b, c只是要找到的yang.c的key, 而实际的数据yang.c存储在叶子节点上.
+<strong>所有的非叶子节点都可以看成索引部分</strong></p>
+<h3 id="b树的性质下面提到的都是和b树不相同的性质">B+树的性质(下面提到的都是和B树不相同的性质)</h3>
+<ul>
+<li>非叶子节点的子树指针与关键字个数相同;</li>
+<li>非叶子节点的子树指针p[i], 指向关键字值属于[k[i], k[i+1]]的子树.(B树是开区间, 也就是说B树不允许关键字重复, B+树允许重复)；</li>
+<li>为所有叶子节点增加一个链指针.</li>
+<li>所有关键字都在叶子节点出现(稠密索引). (且链表中的关键字恰好是有序的);* 非叶子节点相当于是叶子节点的索引(稀疏索引), 叶子节点相当于是存储(关键字)数据的数据层.</li>
+<li>更适合于文件系统;
+看下图:</li>
+</ul>
+<p><img src="/struct/b+.jpg" alt="b+"></p>
+<p>非叶子节点(比如5, 28, 65)只是一个key(索引), 实际的数据存在叶子节点上(5, 8, 9)才是真正的数据或指向真实数据的指针.</p>
+<h3 id="特点">特点</h3>
+<ul>
+<li>B+树的层级更少：相较于B树B+每个非叶子节点存储的关键字数更多，树的层级更少所以查询数据更快；</li>
+<li>B+树查询速度更稳定：B+所有关键字数据地址都存在叶子节点上，所以每次查找的次数都相同所以查询速度要比B树更稳定;</li>
+<li>B+树天然具备排序功能：B+树所有的叶子节点数据构成了一个有序链表，在查询大小区间的数据时候更方便，数据紧密性很高，缓存的命中率也会比B树高。</li>
+<li>B+树全节点遍历更快：B+树遍历整棵树只需要遍历所有的叶子节点即可，，而不需要像B树一样需要对每一层进行遍历，这有利于数据库做全表扫描。</li>
+</ul>
+<p>B树相对于B+树的优点是，如果经常访问的数据离根节点很近，而B树的非叶子节点本身存有关键字其数据的地址，所以这种数据检索的时候会要比B+树快。</p>
+<h3 id="应用-2">应用　　</h3>
+<p>B和B+树主要用在文件系统以及数据库做索引.比如Mysql;</p>
+<h3 id="bb树性能分析">B/B+树性能分析　</h3>
+<ul>
+<li>n个节点的平衡二叉树的高度为H(即logn), 而n个节点的B/B+树的高度为logt((n+1)/2)+1; 　　</li>
+<li>若要作为内存中的查找表, B树却不一定比平衡二叉树好, 尤其当m较大时更是如此.因为查找操作CPU的时间在B-树上是O(mlogtn)=O(lgn(m/lgt)), 而m/lgt&gt;1;所以m较大时O(mlogtn)比平衡二叉树的操作时间大得多. 因此在内存中使用B树必须取较小的m.（通常取最小值m=3，此时B-树中每个内部结点可以有2或3个孩子，这种3阶的B-树称为2-3树）。</li>
+</ul>
+<h3 id="为什么说btree比b树更适合实际应用中操作系统的文件索引和数据索引">为什么说B+tree比B树更适合实际应用中操作系统的文件索引和数据索引.　　</h3>
+<ul>
+<li>B+-tree的内部节点并没有指向关键字具体信息的指针, 因此其内部节点相对B树更小, 如果把所有同一内部节点的关键字存放在同一盘块中, 那么盘块所能容纳的关键字数量也越多, 一次性读入内存的需要查找的关键字也就越多, 相对IO读写次数就降低了.</li>
+<li>由于非终结点并不是最终指向文件内容的结点，而只是叶子结点中关键字的索引。所以任何关键字的查找必须走一条从根结点到叶子结点的路。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。
+ps:我在知乎上看到有人是这样说的, 我感觉说的也挺有道理的:
+他们认为数据库索引采用B+树的主要原因是:B树在提高了IO性能的同时并没有解决元素遍历的我效率低下的问题, 正是为了解决这个问题, B+树应用而生.B+树只需要去遍历叶子节点就可以实现整棵树的遍历.而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作（或者说效率太低）.　　</li>
+</ul>
+
+    </div>
+
+    
+    
+
+
+
+    
+    
+
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://localhost:1313/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+            
+        </div>
+
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/go/go-gops/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Gops</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+    
+
+  
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:sky3hao@gmail.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="http://github.com/sky3hao" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://localhost:1313/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+  
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    2022
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        老鹰之歌
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.fe83e11b4fbc9193d67e2c9db78bad21f8dc59fca0cacd8c1c3bb071bb16a852.js" integrity="sha256-/oPhG0&#43;8kZPWfiydt4utIfjcWfygys2MHDuwcbsWqFI=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

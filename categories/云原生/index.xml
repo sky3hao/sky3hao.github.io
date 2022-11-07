@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>云原生 on 老鹰之歌的博客</title>
+    <link>http://localhost:1313/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/</link>
+    <description>Recent content in 云原生 on 老鹰之歌的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 07 Nov 2022 14:01:23 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Service Mesh 介绍</title>
+      <link>http://localhost:1313/post/cloud-native/cn-svcmesh-introduce/</link>
+      <pubDate>Mon, 07 Nov 2022 14:01:23 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/cloud-native/cn-svcmesh-introduce/</guid>
+      <description>云原生 Service Mesh 已经成为云原生技术栈里的一个关键组件, 首先我们要弄明白云原生是什么, CNCF给出的定义是: 容器化 微服务 容器可以动态调度 我认为云原生</description>
+    </item>
+    
+  </channel>
+</rss>
