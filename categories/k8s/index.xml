@@ -8,7 +8,7 @@
     <language>zh-cn</language>
     <lastBuildDate>Mon, 07 Nov 2022 14:02:23 +0800</lastBuildDate><atom:link href="https://sky3hao.github.io/categories/k8s/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Namespce与Cgroup概述</title>
+      <title>Namespace与Cgroup概述</title>
       <link>https://sky3hao.github.io/post/k8s/k8s-namespace/</link>
       <pubDate>Mon, 07 Nov 2022 14:02:23 +0800</pubDate>
       

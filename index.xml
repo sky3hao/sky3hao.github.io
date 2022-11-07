@@ -613,7 +613,7 @@ runtime/debug.PrintStack()
     </item>
     
     <item>
-      <title>Namespce与Cgroup概述</title>
+      <title>Namespace与Cgroup概述</title>
       <link>https://sky3hao.github.io/post/k8s/k8s-namespace/</link>
       <pubDate>Mon, 07 Nov 2022 14:02:23 +0800</pubDate>
       
