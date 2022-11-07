@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>gRPC on 老鹰之歌的博客</title>
-    <link>http://localhost:1313/tags/grpc/</link>
+    <link>https://sky3hao.github.io/tags/grpc/</link>
     <description>Recent content in gRPC on 老鹰之歌的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 07 Nov 2022 14:05:23 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/grpc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Nov 2022 14:05:23 +0800</lastBuildDate><atom:link href="https://sky3hao.github.io/tags/grpc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>gRPC介绍</title>
-      <link>http://localhost:1313/post/go/go-grpc/</link>
+      <link>https://sky3hao.github.io/post/go/go-grpc/</link>
       <pubDate>Mon, 07 Nov 2022 14:05:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/go-grpc/</guid>
+      <guid>https://sky3hao.github.io/post/go/go-grpc/</guid>
       <description>gRPC 是一个 基于 HTTP/2 协议设计的 RPC 框架, 它采用了 Protobuf 作为接口定义语言 (interface definition language， IDL). 因此下面在讲 gRPC 之前先介绍一下与之相关的技术. 1. RPC 1.1 简介 RPC 代</description>
     </item>
     

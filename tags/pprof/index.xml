@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>pprof on 老鹰之歌的博客</title>
-    <link>http://localhost:1313/tags/pprof/</link>
+    <link>https://sky3hao.github.io/tags/pprof/</link>
     <description>Recent content in pprof on 老鹰之歌的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 07 Nov 2022 11:01:23 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/pprof/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Nov 2022 11:01:23 +0800</lastBuildDate><atom:link href="https://sky3hao.github.io/tags/pprof/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Golang PProf</title>
-      <link>http://localhost:1313/post/go/go-pprof/</link>
+      <link>https://sky3hao.github.io/post/go/go-pprof/</link>
       <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/go-pprof/</guid>
+      <guid>https://sky3hao.github.io/post/go/go-pprof/</guid>
       <description>1. 概念 1.1 PProf 是什么 在 Go 语言中，PProf 是用于可视化和分析性能分析数据的工具，PProf 以 profile.proto 读取分析样本的集合，并生成报告以可视化并帮助分析数</description>
     </item>
     

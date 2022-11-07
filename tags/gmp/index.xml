@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>gmp on 老鹰之歌的博客</title>
-    <link>http://localhost:1313/tags/gmp/</link>
+    <link>https://sky3hao.github.io/tags/gmp/</link>
     <description>Recent content in gmp on 老鹰之歌的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 07 Nov 2022 11:01:23 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/gmp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Nov 2022 11:01:23 +0800</lastBuildDate><atom:link href="https://sky3hao.github.io/tags/gmp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Golang GMP</title>
-      <link>http://localhost:1313/post/go/go-gmp/</link>
+      <link>https://sky3hao.github.io/post/go/go-gmp/</link>
       <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/go-gmp/</guid>
+      <guid>https://sky3hao.github.io/post/go/go-gmp/</guid>
       <description>多个线程可以属于同一个进程并共享内存空间。因为不需要创建新的虚拟内存空间，所以它们也不需要内存管理单元处理上下文的切换，线程之间的通信也正是</description>
     </item>
     

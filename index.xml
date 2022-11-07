@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>老鹰之歌的博客</title>
-    <link>http://localhost:1313/</link>
+    <link>https://sky3hao.github.io/</link>
     <description>Recent content on 老鹰之歌的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 07 Nov 2022 14:05:23 +0800</lastBuildDate>
     
-        <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://sky3hao.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>关于</title>
-      <link>http://localhost:1313/about/</link>
+      <link>https://sky3hao.github.io/about/</link>
       <pubDate>Mon, 07 Nov 2022 10:41:52 +0800</pubDate>
       
-      <guid>http://localhost:1313/about/</guid>
+      <guid>https://sky3hao.github.io/about/</guid>
       
         <description>&lt;p&gt;积累了一些技术文章, 想通过 github page 分享出来.&lt;/p&gt;
 &lt;p&gt;关于我, 热爱编程, 剑道, 吉他.&lt;/p&gt;
@@ -26,10 +26,10 @@
     
     <item>
       <title>gRPC介绍</title>
-      <link>http://localhost:1313/post/go/go-grpc/</link>
+      <link>https://sky3hao.github.io/post/go/go-grpc/</link>
       <pubDate>Mon, 07 Nov 2022 14:05:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/go-grpc/</guid>
+      <guid>https://sky3hao.github.io/post/go/go-grpc/</guid>
       
         <description>&lt;p&gt;gRPC 是一个 基于 HTTP/2 协议设计的 RPC 框架, 它采用了 Protobuf 作为接口定义语言 (interface definition language， IDL). 因此下面在讲 gRPC 之前先介绍一下与之相关的技术.&lt;/p&gt;
 &lt;h2 id=&#34;1-rpc&#34;&gt;1. RPC&lt;/h2&gt;
@@ -61,7 +61,7 @@
 各字段存储得非常紧凑，存储空间利用率非常高; 若字段没有被设置字段值，那么该字段在序列化时的数据中是完全不存在的，即不需要编码.&lt;/p&gt;
 &lt;h4 id=&#34;241-message---tlv&#34;&gt;2.4.1 message - TLV&lt;/h4&gt;
 &lt;p&gt;首先，每一个 message 进行编码，其结果由一个个字段组成，每个字段可划分为 Tag - [Length] - Value，如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/grpc/proto1.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/grpc/proto1.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;特别注意这里的 [Length] 是可选的，含义是针对不同类型的数据编码结构可能会变成 Tag - Value 的形式，如果变成这样的形式，没有了 Length 我们该如何确定 Value 的边界？答案就是 &lt;code&gt;Varint&lt;/code&gt;编码&lt;/p&gt;
@@ -72,12 +72,12 @@
 &lt;li&gt;&lt;strong&gt;wire_type:&lt;/strong&gt; ProtoBuf 编码类型，根据这个类型选择不同的 Value 编码方案。
 整个 Tag 采用 Varints 编码方案进行编码&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/grpc/proto2.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/grpc/proto2.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h4 id=&#34;243-wire_type-编码类型&#34;&gt;2.4.3 wire_type 编码类型&lt;/h4&gt;
 &lt;p&gt;bit 的 wire_type 最多可以表达 8 种编码类型，目前 ProtoBuf 已经定义了 6 种，如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/grpc/proto3.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/grpc/proto3.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h4 id=&#34;244-总结&#34;&gt;2.4.4 总结：&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/grpc/proto4.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/grpc/proto4.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;详情请参考: &lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/proto3&#34;&gt;Language Guide (proto3)&lt;/a&gt;&lt;/p&gt;
@@ -93,9 +93,9 @@
 &lt;h3 id=&#34;32-http2-新特性&#34;&gt;3.2 HTTP/2 新特性&lt;/h3&gt;
 &lt;h4 id=&#34;321-二进制传输&#34;&gt;3.2.1. 二进制传输&lt;/h4&gt;
 &lt;p&gt;在应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/grpc/bit1.png&#34; alt=&#34;1&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/grpc/bit1.png&#34; alt=&#34;1&#34;&gt;&lt;/p&gt;
 &lt;p&gt;之前 HTTP1.x 的首部信息会被封装到 HEADERS 帧，而相应的 Request Body 则封装到 DATA 帧里面，HTTP/2 数据分帧后，“Header+Body”的报文结构就完全消失了，协议看到的只是一个个”碎片”。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/grpc/bit2.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/grpc/bit2.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;HTTP/2 中，同域名下所有通信都在单个连接上完成，该连接可以承载任意数量的双向数据流。多个帧之间可以乱序发送，根据帧首部的流标识可以重新组装。&lt;/p&gt;
 &lt;p&gt;有了二进制分帧, 在TCP层面虽然还是串行的, 但是在HTTP层面, 请求就是并发的;&lt;br&gt;
 这些特性使得其在移动设备上表现更好，更省电和节省空间占用。&lt;/p&gt;
@@ -103,7 +103,7 @@
 &lt;p&gt;一方面，头信息使用 gzip 或 compress 压缩后再发送；另一方面，客户端和服务器同时维护一张头信息表，所有字段都会存入这个表，生成一个索引号，以后就不发送同样字段了，只发送索引号，这样就提高速度了。&lt;/p&gt;
 &lt;h4 id=&#34;323-多路复用multiplexing&#34;&gt;3.2.3. 多路复用（Multiplexing）&lt;/h4&gt;
 &lt;p&gt;多路复用，就是在一个 TCP 连接中可以存在多条流。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/grpc/multi.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/grpc/multi.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;关键在于对数据包做标记，标识它属于哪个请求/响应。&lt;/p&gt;
 &lt;p&gt;数据包发送的时候，都必须标记数据流ID，用来区分它属于哪个数据流。另外还规定，客户端发出的数据流，ID一律为奇数，服务器发出的，ID为偶数。&lt;/p&gt;
 &lt;h4 id=&#34;324-服务端推送&#34;&gt;3.2.4. 服务端推送&lt;/h4&gt;
@@ -134,7 +134,7 @@
 &lt;li&gt;支持多语言&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;43-概览&#34;&gt;4.3 概览&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/grpc/8b0bdd7d7bfbfdd35c5ac0c078255b5e.png&#34; alt=&#34;!asdf&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/grpc/8b0bdd7d7bfbfdd35c5ac0c078255b5e.png&#34; alt=&#34;!asdf&#34;&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;客户端（gRPC Sub）调用 A 方法，发起 RPC 调用&lt;/li&gt;
 &lt;li&gt;对请求信息使用 Protobuf 进行对象序列化压缩（IDL）&lt;/li&gt;
@@ -259,7 +259,7 @@ $ go run server/simple/server.go
 $ go run client/simple/client.go
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;6-grpc-streaming&#34;&gt;6. gRPC Streaming&lt;/h2&gt;
 &lt;h3 id=&#34;61-流&#34;&gt;6.1 流&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/grpc/cd8901b994a57d6f0a38dbf4e5da475a.png&#34; alt=&#34;stream&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/grpc/cd8901b994a57d6f0a38dbf4e5da475a.png&#34; alt=&#34;stream&#34;&gt;&lt;/p&gt;
 &lt;h4 id=&#34;611-为什么不用-simple-rpc&#34;&gt;6.1.1 为什么不用 Simple RPC&lt;/h4&gt;
 &lt;p&gt;流式为什么要存在呢，是 Simple RPC 有什么问题吗？通过模拟业务场景，可得知在使用 Simple RPC 时，有如下问题：&lt;/p&gt;
 &lt;ul&gt;
@@ -614,10 +614,10 @@ runtime/debug.PrintStack()
     
     <item>
       <title>Namespce与Cgroup概述</title>
-      <link>http://localhost:1313/post/k8s/k8s-namespace/</link>
+      <link>https://sky3hao.github.io/post/k8s/k8s-namespace/</link>
       <pubDate>Mon, 07 Nov 2022 14:02:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/k8s/k8s-namespace/</guid>
+      <guid>https://sky3hao.github.io/post/k8s/k8s-namespace/</guid>
       
         <description>&lt;h1 id=&#34;namespace概述&#34;&gt;Namespace概述&lt;/h1&gt;
 &lt;p&gt;“namespace即“命名空间”，也称“名称空间” 。是许多编程语言使用的一种代码组织的形式，通过命名空间来分类，区别不同的代码功能，避免不同的代码片段（通常由不同的人协同工作或调用已有的代码片段）同时使用时由于不同代码间变量名相同而造成冲突。”&lt;/p&gt;
@@ -637,7 +637,7 @@ runtime/debug.PrintStack()
 &lt;p&gt;下图中共有三个 PID namespace：一个父 namespace 和两个子 namespace。父 namespace 中共有四个进程，PID1 至 PID4。这些都是正常的进程，它们可以看到彼此并共享资源。&lt;/p&gt;
 &lt;p&gt;父 namespace 中使用 PID2 和 PID3 的子进程也属于它们各自的 PID namespace（PID 为 1）。在子 namespace 中，PID1 进程看不到任何外部资源。例如，两个子 namespace 中的 PID1 看不到父 namespace 中的 PID4。&lt;/p&gt;
 &lt;p&gt;在这种情况下，这使得不同 namespace 中的进程之间得以隔离。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/k8s/namespace/name2.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/k8s/namespace/name2.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;3-创建-namespace&#34;&gt;3. 创建 Namespace&lt;/h3&gt;
 &lt;p&gt;有了这些理论，现在我们实际创建一个新的 namespace 以加深理解。Linux unshare 命令是一个很好的着手点。手册页显示它就是我们要找的&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;NAME
@@ -683,7 +683,7 @@ uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfi
 &lt;/ul&gt;
 &lt;p&gt;cgroup 的作用基本上就是控制一个进程或一组进程可以访问或使用给定关键资源（CPU、内存、网络和磁盘 I/O）的量。一个容器中通常运行了多个进程，并且您需要对这些进程实施统一控制，因此 cgroup 是容器的关键组件。Kubernetes 环境使用cgroup 在 pod 级别上部署资源请求和限制以及对应的 QoS 类。&lt;/p&gt;
 &lt;p&gt;下图说明了当您将特定比例的可用系统资源分配给一个 cgroup（在本例中，为cgroup‑1）后，剩余资源是如何在系统上其他 cgroup（以及各个进程）之间进行分配的。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/k8s/namespace/cgroup1.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/k8s/namespace/cgroup1.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;1-cgroup-版本&#34;&gt;1. Cgroup 版本&lt;/h3&gt;
 &lt;p&gt;根据维基百科的说法，cgroup 第一个版本于 2007 年末或 2008 年初并入 Linux 内核主线，“cgroup 第二个版本的文档于 2016 年首次出现在 Linux 内核中”。第二个版本进行了许多改变，其中较大的变化是树形结构更加简化、cgroup 层次结构增加了新的特性和接口，以及能够更好地适应“rootless”容器（使用非零 UID）。&lt;/p&gt;
 &lt;p&gt;v2版本的接口也有所更新，其中我最喜欢的是 pressure stall information (PSI)。与之前相比，它能够更精细地提供对每个进程内存使用和分配情况的洞察（不在本博客的讨论范围内，但这是一个非常有意思的话题）。&lt;/p&gt;
@@ -770,10 +770,10 @@ session-13.scope,10:devices:/user.slice,6:memory:/foo,...
     
     <item>
       <title>Service Mesh 介绍</title>
-      <link>http://localhost:1313/post/cloud-native/cn-svcmesh-introduce/</link>
+      <link>https://sky3hao.github.io/post/cloud-native/cn-svcmesh-introduce/</link>
       <pubDate>Mon, 07 Nov 2022 14:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/cloud-native/cn-svcmesh-introduce/</guid>
+      <guid>https://sky3hao.github.io/post/cloud-native/cn-svcmesh-introduce/</guid>
       
         <description>&lt;h2 id=&#34;云原生&#34;&gt;云原生&lt;/h2&gt;
 &lt;p&gt;Service Mesh 已经成为云原生技术栈里的一个关键组件, 首先我们要弄明白云原生是什么, CNCF给出的定义是:&lt;/p&gt;
@@ -853,15 +853,15 @@ Spring Cloud全家桶包括的内容较多, 学习成本也相对较高;&lt;/p&g
 &lt;li&gt;&lt;strong&gt;Kong:&lt;/strong&gt; 比 nginMesh 更加低调, 默默发展中;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;service-mesh-演进总结&#34;&gt;Service Mesh 演进总结:&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/cloudnative/svcmesh/doc-sm.jpg&#34; alt=&#34;s&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/cloudnative/svcmesh/doc-sm.jpg&#34; alt=&#34;s&#34;&gt;&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;h2 id=&#34;怎么理解网格&#34;&gt;怎么理解网格&lt;/h2&gt;
 &lt;h3 id=&#34;单个服务调用表现为sidecar&#34;&gt;单个服务调用，表现为sidecar&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/cloudnative/svcmesh/doc-1.jpg&#34; alt=&#34;1&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/cloudnative/svcmesh/doc-1.jpg&#34; alt=&#34;1&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;部署多个服务表现为通讯层&#34;&gt;部署多个服务，表现为通讯层&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/cloudnative/svcmesh/doc-2.jpg&#34; alt=&#34;2&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/cloudnative/svcmesh/doc-2.jpg&#34; alt=&#34;2&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;有大量服务表现为网络&#34;&gt;有大量服务，表现为网络&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/cloudnative/svcmesh/doc-3.jpg&#34; alt=&#34;3&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/cloudnative/svcmesh/doc-3.jpg&#34; alt=&#34;3&#34;&gt;&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;h2 id=&#34;istio&#34;&gt;Istio&lt;/h2&gt;
 &lt;p&gt;Istio 的架构核心组件有四个:&lt;/p&gt;
@@ -872,9 +872,9 @@ Spring Cloud全家桶包括的内容较多, 学习成本也相对较高;&lt;/p&g
 &lt;li&gt;然后是名为 &lt;strong&gt;&lt;code&gt;Pilot&lt;/code&gt;&lt;/strong&gt; 的控制器, 用来将流量协调的策略和规则发送到 &lt;code&gt;Envoy&lt;/code&gt; 代理;&lt;/li&gt;
 &lt;li&gt;最后是名为 &lt;strong&gt;&lt;code&gt;Istio-Auth&lt;/code&gt;&lt;/strong&gt; 的身份认证组件, 用来做服务间访问的安全控制;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/cloudnative/svcmesh/doc-istio-jia.jpg&#34; alt=&#34;jia&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/cloudnative/svcmesh/doc-istio-jia.jpg&#34; alt=&#34;jia&#34;&gt;&lt;/p&gt;
 &lt;h4 id=&#34;istio带来的是前所未有的控制力&#34;&gt;Istio带来的是前所未有的控制力&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/cloudnative/svcmesh/doc-istio.jpg&#34; alt=&#34;a&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/cloudnative/svcmesh/doc-istio.jpg&#34; alt=&#34;a&#34;&gt;&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;blockquote&gt;
 &lt;blockquote&gt;
@@ -887,10 +887,10 @@ Spring Cloud全家桶包括的内容较多, 学习成本也相对较高;&lt;/p&g
     
     <item>
       <title>UNIX 哲学</title>
-      <link>http://localhost:1313/post/others/unix/</link>
+      <link>https://sky3hao.github.io/post/others/unix/</link>
       <pubDate>Mon, 07 Nov 2022 13:20:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/others/unix/</guid>
+      <guid>https://sky3hao.github.io/post/others/unix/</guid>
       
         <description>&lt;blockquote&gt;
 &lt;p&gt;&amp;ldquo;简单原则&amp;rdquo;&amp;mdash;-尽量用简单的方法解决问题&amp;mdash;-是&amp;quot;Unix哲学&amp;quot;的根本原则。
@@ -911,10 +911,10 @@ Spring Cloud全家桶包括的内容较多, 学习成本也相对较高;&lt;/p&g
     
     <item>
       <title>Gitlab &#43; Drone2</title>
-      <link>http://localhost:1313/post/cicd/cicd-drone/</link>
+      <link>https://sky3hao.github.io/post/cicd/cicd-drone/</link>
       <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/cicd/cicd-drone/</guid>
+      <guid>https://sky3hao.github.io/post/cicd/cicd-drone/</guid>
       
         <description>&lt;h2 id=&#34;1-安装gitlab&#34;&gt;1. 安装gitlab:&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;docker run -d  -p 443:443 -p 80:80 -p 222:22 --name gitlab --restart always -v /home/gitlab/config:/etc/gitlab -v /home/gitlab/logs:/var/log/gitlab -v /home/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce:14.1.8-ce.0
@@ -1066,10 +1066,10 @@ deploy-prod:
     
     <item>
       <title>Redis集群</title>
-      <link>http://localhost:1313/post/storage/storage-redisclustor/</link>
+      <link>https://sky3hao.github.io/post/storage/storage-redisclustor/</link>
       <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/storage/storage-redisclustor/</guid>
+      <guid>https://sky3hao.github.io/post/storage/storage-redisclustor/</guid>
       
         <description>&lt;p&gt;Redis支持三种集群方案:&lt;/p&gt;
 &lt;ol&gt;
@@ -1078,7 +1078,7 @@ deploy-prod:
 &lt;li&gt;Cluster模式&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;1-主从复制模式&#34;&gt;1. 主从复制模式&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/storage/5b8e73970b206eaa4d4451ca609d40ce.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/storage/5b8e73970b206eaa4d4451ca609d40ce.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;客户端可对主数据库进行读写操作，对从数据库进行读操作，主数据库写入的数据会实时自动同步给从数据库。&lt;/p&gt;
 &lt;h3 id=&#34;11-复制流程&#34;&gt;1.1 复制流程&lt;/h3&gt;
 &lt;p&gt;具体工作机制为：&lt;/p&gt;
@@ -1090,9 +1090,9 @@ deploy-prod:
 &lt;li&gt;此后master每次执行一个写命令都会同步发送给slave，保持master与slave之间数据的一致性&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h5 id=&#34;主从复制全量复制流程图&#34;&gt;主从复制(全量复制)流程图：&lt;/h5&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/storage/bbb0ae0dc818aa37ca525801fcad0510.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/storage/bbb0ae0dc818aa37ca525801fcad0510.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h5 id=&#34;主从复制部分复制流程图&#34;&gt;主从复制(部分复制)流程图：&lt;/h5&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/storage/185e96394c133d7ce6f32dfb3b2f153b.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/storage/185e96394c133d7ce6f32dfb3b2f153b.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h5 id=&#34;过期key处理&#34;&gt;过期key处理&lt;/h5&gt;
 &lt;p&gt;slave不会过期key，只会等待master过期key。如果master过期了一个key，或者通过LRU淘汰了一个key，那么会模拟一条del命令发送给slave。&lt;/p&gt;
 &lt;h3 id=&#34;12-主从复制的优缺点&#34;&gt;1.2 主从复制的优缺点&lt;/h3&gt;
@@ -1108,7 +1108,7 @@ deploy-prod:
 &lt;li&gt;难以支持在线扩容，Redis的容量受限于单机配置&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;2-sentinel哨兵模式&#34;&gt;2. Sentinel（哨兵）模式&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/storage/16031109bd3a84470f7ac64b5edbb402.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/storage/16031109bd3a84470f7ac64b5edbb402.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;哨兵顾名思义，就是来为Redis集群站哨的，一旦发现问题能做出相应的应对处理。其功能包括:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;监控master、slave是否正常运行&lt;/li&gt;
@@ -1153,7 +1153,7 @@ deploy-prod:
 &lt;li&gt;需要额外的资源来启动sentinel进程，实现相对复杂一点，同时slave节点作为备份节点不提供服务&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;3-cluster模式&#34;&gt;3. Cluster模式&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/storage/928b648284ec013b0f8817dc56e7cf11.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/storage/928b648284ec013b0f8817dc56e7cf11.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Redis Cluster是一种服务器Sharding技术，3.0版本开始正式提供。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;在此之前, 还有一种客户端的Sharding技术, 即多个Redis实例服务, 主要思想是采用哈希算法将Redis数据的Key进行散列, 通过hash函数, 特定的key映射到特定的Redis节点上;&lt;/p&gt;
@@ -1200,10 +1200,10 @@ Cluster模式集群节点最小配置6个节点(3主3从，因为需要半数以
     
     <item>
       <title>Ubunut &#43; K3S 安装 Zadig</title>
-      <link>http://localhost:1313/post/cicd/cicd-zadig/</link>
+      <link>https://sky3hao.github.io/post/cicd/cicd-zadig/</link>
       <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/cicd/cicd-zadig/</guid>
+      <guid>https://sky3hao.github.io/post/cicd/cicd-zadig/</guid>
       
         <description>&lt;h2 id=&#34;1-安装-docker&#34;&gt;1. 安装 docker&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;apt update
@@ -1314,10 +1314,10 @@ admin / zadig&lt;/p&gt;
     
     <item>
       <title>单元测试-GoConvey</title>
-      <link>http://localhost:1313/post/go/unit/go-unit-goconvy/</link>
+      <link>https://sky3hao.github.io/post/go/unit/go-unit-goconvy/</link>
       <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/unit/go-unit-goconvy/</guid>
+      <guid>https://sky3hao.github.io/post/go/unit/go-unit-goconvy/</guid>
       
         <description>&lt;h2 id=&#34;1-介绍&#34;&gt;1. 介绍&lt;/h2&gt;
 &lt;p&gt;GoConvey直接与&lt;code&gt;go test&lt;/code&gt;集成，提供了很多丰富的断言函数，能够在终端输出可读的彩色测试结果，并且还支持全自动的Web UI。&lt;/p&gt;
@@ -1630,10 +1630,10 @@ admin / zadig&lt;/p&gt;
     
     <item>
       <title>单元测试-GoMock</title>
-      <link>http://localhost:1313/post/go/unit/go-unit-gomock/</link>
+      <link>https://sky3hao.github.io/post/go/unit/go-unit-gomock/</link>
       <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/unit/go-unit-gomock/</guid>
+      <guid>https://sky3hao.github.io/post/go/unit/go-unit-gomock/</guid>
       
         <description>&lt;h2 id=&#34;1-mock--stub&#34;&gt;1. Mock &amp;amp; Stub&lt;/h2&gt;
 &lt;p&gt;Mock（模拟）和 Stub（桩）是在测试过程中，模拟外部依赖行为的两种常用的技术手段。通过 Mock 和 Stub 我们不仅可以让测试环境没有外部依赖而且还可以模拟一些异常行为，普遍来说，我们遇到最常见的依赖无非下面几种：&lt;/p&gt;
@@ -1838,10 +1838,10 @@ GoMock 测试框架包含了 &lt;code&gt;GoMock&lt;/code&gt;包和&lt;code&gt;mo
     
     <item>
       <title>单元测试-testify</title>
-      <link>http://localhost:1313/post/go/unit/go-unit-testify/</link>
+      <link>https://sky3hao.github.io/post/go/unit/go-unit-testify/</link>
       <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/unit/go-unit-testify/</guid>
+      <guid>https://sky3hao.github.io/post/go/unit/go-unit-testify/</guid>
       
         <description>&lt;h2 id=&#34;1-简介&#34;&gt;1. 简介&lt;/h2&gt;
 &lt;p&gt;Testify基于gotesting编写，所以语法上、执行命令行与&lt;code&gt;go test&lt;/code&gt;完全兼容，只是其是比较清晰的断言定义。它提供 &lt;code&gt;assert&lt;/code&gt; 和 &lt;code&gt;require&lt;/code&gt; 两种用法，分别对应失败后的执行策略，前者失败后继续执行，后者失败后立刻停止。 但是它们都是单次断言失败，当前test case就失败。&lt;/p&gt;
@@ -1990,10 +1990,10 @@ GoMock 测试框架包含了 &lt;code&gt;GoMock&lt;/code&gt;包和&lt;code&gt;mo
     
     <item>
       <title>单元测试-testing</title>
-      <link>http://localhost:1313/post/go/unit/go-unit-testing/</link>
+      <link>https://sky3hao.github.io/post/go/unit/go-unit-testing/</link>
       <pubDate>Mon, 07 Nov 2022 13:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/unit/go-unit-testing/</guid>
+      <guid>https://sky3hao.github.io/post/go/unit/go-unit-testing/</guid>
       
         <description>&lt;p&gt;testing 包被专门用来进行单元测试以及进行自动化测试，打印日志和错误报告。&lt;/p&gt;
 &lt;h2 id=&#34;1-go-test工具&#34;&gt;1. go test工具&lt;/h2&gt;
@@ -2434,10 +2434,10 @@ GoMock 测试框架包含了 &lt;code&gt;GoMock&lt;/code&gt;包和&lt;code&gt;mo
     
     <item>
       <title>Golang GMP</title>
-      <link>http://localhost:1313/post/go/go-gmp/</link>
+      <link>https://sky3hao.github.io/post/go/go-gmp/</link>
       <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/go-gmp/</guid>
+      <guid>https://sky3hao.github.io/post/go/go-gmp/</guid>
       
         <description>&lt;p&gt;多个线程可以属于同一个进程并共享内存空间。因为不需要创建新的虚拟内存空间，所以它们也不需要内存管理单元处理上下文的切换，线程之间的通信也正是基于共享的内存进行的，与重量级的进程相比，线程显得比较轻量。&lt;/p&gt;
 &lt;p&gt;虽然线程比较轻量，但是在调度时也有比较大的额外开销。每个线程会都占用 1M 以上的内存空间，在切换线程时不止会消耗较多的内存，恢复寄存器中的内容还需要向操作系统申请或者销毁资源，每一次线程上下文的切换都需要消耗 ~1us 左右的时间1，但是 Go 调度器对 Goroutine 的上下文切换约为 ~0.2us，减少了 80% 的额外开销2。&lt;/p&gt;
@@ -2446,7 +2446,7 @@ GoMock 测试框架包含了 &lt;code&gt;GoMock&lt;/code&gt;包和&lt;code&gt;mo
 &lt;p&gt;&lt;code&gt;runtime&lt;/code&gt; 也叫运行时，对golang程序很重要，runtime包含了调度、内存管理、垃圾回收、内部数据结构、定时器和各种系统调用的封装等。可以说golang的强大都归功于runtime的实现。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;1-调度基本组件&#34;&gt;1. 调度基本组件&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/2020-02-05-15808864354595-golang-scheduler.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/2020-02-05-15808864354595-golang-scheduler.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;G — 表示 Goroutine，它是一个待执行的任务；&lt;/li&gt;
 &lt;li&gt;M — 表示操作系统的线程，它由操作系统的调度器调度和管理；&lt;/li&gt;
@@ -2477,7 +2477,7 @@ GoMock 测试框架包含了 &lt;code&gt;GoMock&lt;/code&gt;包和&lt;code&gt;mo
 &lt;li&gt;P的数量也代表了golang的执行并发度，即有多少goroutine可以同时运行&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;2-调度流程概括&#34;&gt;2. 调度流程概括&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/fb4c6c92c93af3bc2dfc4f13dc167cdf.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/fb4c6c92c93af3bc2dfc4f13dc167cdf.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;当我们执行 go func() 时，实际上就是创建一个全新的 Goroutine，我们称它为 G。&lt;/li&gt;
 &lt;li&gt;新创建的 G 会被放入 P 的本地队列（Local Queue）或全局队列（Global Queue）中，准备下一步的动作。需要注意的一点，这里的 P 指的是创建 G 的 P。&lt;/li&gt;
@@ -2494,10 +2494,10 @@ GoMock 测试框架包含了 &lt;code&gt;GoMock&lt;/code&gt;包和&lt;code&gt;mo
     
     <item>
       <title>Golang GODEBUG</title>
-      <link>http://localhost:1313/post/go/go-debug/</link>
+      <link>https://sky3hao.github.io/post/go/go-debug/</link>
       <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/go-debug/</guid>
+      <guid>https://sky3hao.github.io/post/go/go-debug/</guid>
       
         <description>&lt;h2 id=&#34;1-用-godebug-看调度跟踪&#34;&gt;1. 用 GODEBUG 看调度跟踪&lt;/h2&gt;
 &lt;h3 id=&#34;11-两个参数&#34;&gt;1.1 两个参数&lt;/h3&gt;
@@ -2706,10 +2706,10 @@ GoMock 测试框架包含了 &lt;code&gt;GoMock&lt;/code&gt;包和&lt;code&gt;mo
     
     <item>
       <title>Golang PProf</title>
-      <link>http://localhost:1313/post/go/go-pprof/</link>
+      <link>https://sky3hao.github.io/post/go/go-pprof/</link>
       <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/go-pprof/</guid>
+      <guid>https://sky3hao.github.io/post/go/go-pprof/</guid>
       
         <description>&lt;h2 id=&#34;1-概念&#34;&gt;1. 概念&lt;/h2&gt;
 &lt;h3 id=&#34;11-pprof-是什么&#34;&gt;1.1 PProf 是什么&lt;/h3&gt;
@@ -2823,7 +2823,7 @@ GoMock 测试框架包含了 &lt;code&gt;GoMock&lt;/code&gt;包和&lt;code&gt;mo
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;默认需要等待 30 秒，执行完毕后可在当前目录下发现采集的文件 profile，针对可视化界面我们有两种方式可进行下一步分析：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ go tool pprof -http&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;:6001 profile 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后就可以查看各种图表了, 比如火焰图:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/1640340979767.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/1640340979767.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;3-通过测试用例做剖析&#34;&gt;3. 通过测试用例做剖析&lt;/h2&gt;
 &lt;p&gt;在上面, 我们是通过在应用程序中埋入方法进行采集的，那么还有一种方式，能够更精准的剖析到你所想要分析的流程或函数。&lt;/p&gt;
 &lt;p&gt;首先我们将先前所编写的 Add 方法挪到独立的 package 中，命名为 add.go 文件，然后新建 add_test.go 文件，写入如下测试用例代码：&lt;/p&gt;
@@ -2848,10 +2848,10 @@ $ go tool pprof
     
     <item>
       <title>Golang Trace</title>
-      <link>http://localhost:1313/post/go/go-trace/</link>
+      <link>https://sky3hao.github.io/post/go/go-trace/</link>
       <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/go-trace/</guid>
+      <guid>https://sky3hao.github.io/post/go/go-trace/</guid>
       
         <description>&lt;p&gt;例如 Goroutine 在执行时会做哪些操作？执行/阻塞了多长时间？在什么时候阻止？在哪里被阻止的？谁又锁/解锁了它们？GC 是怎么影响到 Goroutine 的执行的？这些东西用 pprof 是很难分析出来的，可以用本章节的主角 go tool trace 来打开新世界的大门。&lt;/p&gt;
 &lt;h2 id=&#34;1-一个简单例子&#34;&gt;1. 一个简单例子&lt;/h2&gt;
@@ -2892,7 +2892,7 @@ $ go tool pprof
 &lt;p&gt;在刚开始查看问题时，除非是很明显的现象，否则不应该一开始就陷入细节，因此我们一般先查看 “Scheduler latency profile”&lt;/p&gt;
 &lt;h3 id=&#34;12-goroutine-分析&#34;&gt;1.2 Goroutine 分析&lt;/h3&gt;
 &lt;p&gt;第二步看 “Goroutine analysis”&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/1641267336915.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/1641267336915.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2941,7 +2941,7 @@ $ go tool pprof
 &lt;/table&gt;
 &lt;h3 id=&#34;13-查看跟踪&#34;&gt;1.3 查看跟踪&lt;/h3&gt;
 &lt;p&gt;在对当前程序的 Goroutine 运行分布有了初步了解后，我们再通过 “查看跟踪” 看看之间的关联性: &amp;ldquo;View trace&amp;rdquo;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/trace_view_trace.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/trace_view_trace.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;这个跟踪图粗略一看，相信有的小伙伴会比较懵逼，我们可以依据注解一块块查看，如下：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;时间线：显示执行的时间单元，根据时间维度的不同可以调整区间，具体可执行 shift + ? 查看帮助手册。&lt;/li&gt;
@@ -2951,7 +2951,7 @@ $ go tool pprof
 &lt;li&gt;虚拟处理器：每个虚拟处理器显示一行，虚拟处理器的数量一般默认为系统内核数。&lt;/li&gt;
 &lt;li&gt;协程和事件：显示在每个虚拟处理器上有什么 Goroutine 正在运行，而连线行为代表事件关联。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/trace_view_trace_event.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/trace_view_trace_event.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;点击具体的 Goroutine 行为后可以看到其相关联的详细信息，这块很简单，大家实际操作一下就懂了。文字解释如下：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Start：开始时间&lt;/li&gt;
@@ -2967,7 +2967,7 @@ $ go tool pprof
 &lt;/ul&gt;
 &lt;h3 id=&#34;14-查看事件&#34;&gt;1.4 查看事件&lt;/h3&gt;
 &lt;p&gt;我们可以通过点击 View Options-Flow events、Following events 等方式，查看我们应用运行中的事件流情况。如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/trace_view_events-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/trace_view_events-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;通过分析图上的事件流，我们可得知这程序从 &lt;code&gt;G1 runtime.main&lt;/code&gt; 开始运行，在运行时创建了 2 个 Goroutine，先是创建 &lt;code&gt;G18 runtime/trace.Start.func1&lt;/code&gt;，然后再是 &lt;code&gt;G19 main.main.func1&lt;/code&gt; 。而同时我们可以通过其 Goroutine Name 去了解它的调用类型，如：&lt;code&gt;runtime/trace.Start.func1&lt;/code&gt; 就是程序中在 main.main 调用了 &lt;code&gt;runtime/trace.Start&lt;/code&gt; 方法，然后该方法又利用协程创建了一个闭包 func1 去进行调用。&lt;/p&gt;
 &lt;h2 id=&#34;2-实战演练&#34;&gt;2. 实战演练&lt;/h2&gt;
 &lt;p&gt;突然生产环境突然出现了问题，机智的你早已埋好 _ &amp;ldquo;net/http/pprof&amp;rdquo; 这个神奇的工具，你通过特定的方式执行了如下命令：&lt;/p&gt;
@@ -2975,15 +2975,15 @@ $ go tool pprof
 $ go tool trace trace.out
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;21-查看跟踪&#34;&gt;2.1 查看跟踪&lt;/h3&gt;
 &lt;p&gt;你很快的看到了熟悉的 List 界面，然后不信邪点开了 View trace 界面，如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/trace_drill-1.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/trace_drill-1.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;完全看懵的你，稳住，对着合适的区域执行快捷键 &lt;code&gt;W&lt;/code&gt; (对应的缩小是&lt;code&gt;S&lt;/code&gt;)不断地放大时间线，如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/trace_drill-2.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/trace_drill-2.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;经过初步排查，你发现上述绝大部分的 G 竟然都和 &lt;code&gt;google.golang.org/grpc.(*Server).Serve.func&lt;/code&gt; 有关，关联的一大串也是 &lt;code&gt;Serve&lt;/code&gt; 所触发的相关动作。&lt;/p&gt;
 &lt;p&gt;这时候有经验的你心里已经有了初步结论，你可以继续追踪 View trace 深入进去，不过我建议先鸟瞰全貌，因此我们再往下看 “Network blocking profile” 和 “Syscall blocking profile” 所提供的信息&lt;/p&gt;
 &lt;h3 id=&#34;22-网络阻塞概况&#34;&gt;2.2 网络阻塞概况&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/trace_block_profile-1.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/trace_block_profile-1.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;23-系统调用阻塞概况&#34;&gt;2.3 系统调用阻塞概况&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/trace_block_profile-2.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/trace_block_profile-2.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;通过对以上三项的跟踪分析，加上这个泄露，这个阻塞的耗时，这个涉及的内部方法名，很明显就是哪位又忘记关闭客户端连接了，这时候我们就可以接下进行下一步的排查和修改了。&lt;/p&gt;
 </description>
       
@@ -2991,10 +2991,10 @@ $ go tool trace trace.out
     
     <item>
       <title>Golang 垃圾回收</title>
-      <link>http://localhost:1313/post/go/go-gc/</link>
+      <link>https://sky3hao.github.io/post/go/go-gc/</link>
       <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/go-gc/</guid>
+      <guid>https://sky3hao.github.io/post/go/go-gc/</guid>
       
         <description>&lt;h2 id=&#34;1-进程里面的堆和栈&#34;&gt;1. 进程里面的堆和栈&lt;/h2&gt;
 &lt;p&gt;我们知道进程之间内存是隔离的不共享。所以一般说到内存就是指的一个进程用到的内存。&lt;/p&gt;
@@ -3024,7 +3024,7 @@ $ go tool trace trace.out
 &lt;li&gt;将黑色对象指向的所有对象都标记成灰色，保证该对象和被该对象引用的对象都不会被回收；&lt;/li&gt;
 &lt;li&gt;重复上述两个步骤直到对象图中不存在灰色对象；&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/2020-03-16-15843705141814-tri-color-mark-sweep.png&#34; alt=&#34;san&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/2020-03-16-15843705141814-tri-color-mark-sweep.png&#34; alt=&#34;san&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;3-屏障技术&#34;&gt;3. 屏障技术&lt;/h2&gt;
 &lt;p&gt;垃圾收集中的屏障技术更像是一个钩子方法，它是在用户程序读取对象、创建新对象以及更新对象指针时执行的一段代码，根据操作类型的不同，我们可以将它们分成读屏障（Read barrier）和写屏障（Write barrier）两种，因为读屏障需要在读操作中加入代码片段，对用户程序的性能影响很大，所以编程语言往往都会采用写屏障保证三色不变性。&lt;/p&gt;
 &lt;h3 id=&#34;31-dijkstra-插入写屏障&#34;&gt;3.1 Dijkstra 插入写屏障&lt;/h3&gt;
@@ -3033,7 +3033,7 @@ $ go tool trace trace.out
 &lt;li&gt;用户程序修改 A 对象的指针，将原本指向 B 对象的指针指向 C 对象，这时触发写屏障将 C 对象标记成灰色；&lt;/li&gt;
 &lt;li&gt;垃圾收集器依次遍历程序中的其他灰色对象，将它们分别标记成黑色；&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/2020-03-16-15843705141840-dijkstra-insert-write-barrier.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/2020-03-16-15843705141840-dijkstra-insert-write-barrier.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Dijkstra 的插入写屏障是一种相对保守的屏障技术，它会将有存活可能的对象都标记成灰色以满足&lt;code&gt;强三色不变性&lt;/code&gt;。在如上所示的垃圾收集过程中，实际上不再存活的 B 对象最后没有被回收；&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -3044,7 +3044,7 @@ $ go tool trace trace.out
 &lt;li&gt;用户程序将 B 对象原本指向 C 的指针删除，触发删除写屏障，白色的 C 对象被涂成灰色；&lt;/li&gt;
 &lt;li&gt;垃圾收集器依次遍历程序中的其他灰色对象，将它们分别标记成黑色；&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/go/2021-01-02-16095599123266-yuasa-delete-write-barrier.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/go/2021-01-02-16095599123266-yuasa-delete-write-barrier.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;33-何时stw&#34;&gt;3.3 何时STW&lt;/h3&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -3080,10 +3080,10 @@ $ go tool trace trace.out
     
     <item>
       <title>Gops</title>
-      <link>http://localhost:1313/post/go/go-gops/</link>
+      <link>https://sky3hao.github.io/post/go/go-gops/</link>
       <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/go/go-gops/</guid>
+      <guid>https://sky3hao.github.io/post/go/go-gops/</guid>
       
         <description>&lt;p&gt;gops 是由 Google 官方出品的一个命令行工具，与 ps 命令的功能类似，能够查看并诊断当前系统中 Go 程序的运行状态及内部情况，在一些使用场景中具有较大的存在意义，属于常用工具&lt;/p&gt;
 &lt;h2 id=&#34;1-基本使用&#34;&gt;1. 基本使用&lt;/h2&gt;
@@ -3267,10 +3267,10 @@ Trace dump saved to: /var/folders/cs/mfl4k8t54_g1thdzvzkdxbbr0000gn/T/trace13631
     
     <item>
       <title>数据结构-树</title>
-      <link>http://localhost:1313/post/struct/struct-tree/</link>
+      <link>https://sky3hao.github.io/post/struct/struct-tree/</link>
       <pubDate>Mon, 07 Nov 2022 11:01:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/struct/struct-tree/</guid>
+      <guid>https://sky3hao.github.io/post/struct/struct-tree/</guid>
       
         <description>&lt;h2 id=&#34;二叉查找树&#34;&gt;二叉查找树&lt;/h2&gt;
 &lt;h3 id=&#34;简介&#34;&gt;简介&lt;/h3&gt;
@@ -3283,7 +3283,7 @@ Trace dump saved to: /var/folders/cs/mfl4k8t54_g1thdzvzkdxbbr0000gn/T/trace13631
 &lt;/ul&gt;
 &lt;h3 id=&#34;局限性及应用&#34;&gt;局限性及应用&lt;/h3&gt;
 &lt;p&gt;一个二叉查找树是由n个节点随机构成, 所以，对于某些情况, 二叉查找树会退化成一个有n个节点的线性链.如下图:
-&lt;img src=&#34;http://localhost:1313/struct/2cha.jpg&#34; alt=&#34;2cha&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://sky3hao.github.io/struct/2cha.jpg&#34; alt=&#34;2cha&#34;&gt;&lt;/p&gt;
 &lt;p&gt;b图为一个普通的二叉查找树, 大家看a图, 如果我们的根节点选择是最小或者最大的数, 那么二叉查找树就完全退化成了线性结构.&lt;/p&gt;
 &lt;p&gt;因此, 在二叉查找树的基础上, 又出现了AVL树, 红黑树, 它们两个都是基于二叉查找树, 只是在二叉查找树的基础上又对其做了限制.&lt;/p&gt;
 &lt;h2 id=&#34;平衡二叉树avl&#34;&gt;平衡二叉树(AVL)&lt;/h2&gt;
@@ -3296,7 +3296,7 @@ Trace dump saved to: /var/folders/cs/mfl4k8t54_g1thdzvzkdxbbr0000gn/T/trace13631
 &lt;li&gt;树的左右两边的层级数相差不会大于1;&lt;/li&gt;
 &lt;li&gt;没有值相等重复的节点;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/struct/avl.jpg&#34; alt=&#34;avl&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/struct/avl.jpg&#34; alt=&#34;avl&#34;&gt;&lt;/p&gt;
 &lt;p&gt;从上面这张图我们可以看出, 任意节点的左右子树的平衡因子差值都不会大于1.&lt;/p&gt;
 &lt;h3 id=&#34;局限性&#34;&gt;局限性&lt;/h3&gt;
 &lt;p&gt;由于维护这种高度平衡所付出的代价比从中获得的效率收益还大, 故而实际的应用不多，更多的地方是用追求局部而不是非常严格整体平衡的红黑树.当然, 如果应用场景中对插入删除不频繁, 只是对查找要求较高, 那么AVL还是较优于红黑树.&lt;/p&gt;
@@ -3314,7 +3314,7 @@ Trace dump saved to: /var/folders/cs/mfl4k8t54_g1thdzvzkdxbbr0000gn/T/trace13631
 &lt;li&gt;对于任意节点而言, 其到叶子点树NIL指针的每条路径都包含相同数目的黑节点.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;正是因为这些规则，才能保证红黑树的自平衡。最长路径不超过最短路径的2倍。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/struct/honghei.jpg&#34; alt=&#34;honghei&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/struct/honghei.jpg&#34; alt=&#34;honghei&#34;&gt;&lt;/p&gt;
 &lt;p&gt;每条路径都包含相同的黑节点.&lt;/p&gt;
 &lt;h3 id=&#34;应用-1&#34;&gt;应用&lt;/h3&gt;
 &lt;ul&gt;
@@ -3340,7 +3340,7 @@ Trace dump saved to: /var/folders/cs/mfl4k8t54_g1thdzvzkdxbbr0000gn/T/trace13631
 &lt;li&gt;非叶子结点的指针：P[1], P[2], …, P[M]；其中P[1]指向关键字小于K[1]的子树，P[M]指向关键字大于K[M-1]的子树，其它P[i]指向关键字属于(K[i-1], K[i])的子树；&lt;/li&gt;
 &lt;li&gt;所有叶子结点位于同一层；&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/struct/b.jpg&#34; alt=&#34;b&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/struct/b.jpg&#34; alt=&#34;b&#34;&gt;&lt;/p&gt;
 &lt;p&gt;这里只是一个简单的B树, 在实际中B树节点中关键字很多的.上面的图中比如35节点, 35代表一个key(索引)，而小黑块代表的是这个key所指向的内容在内存中实际的存储位置.是一个指针.&lt;/p&gt;
 &lt;h2 id=&#34;b树-1&#34;&gt;B+树&lt;/h2&gt;
 &lt;p&gt;B+树是B树的一个升级版，相对于B树来说B+树更充分的利用了节点的空间，让查询速度更加稳定，其速度完全接近于二分法查找。&lt;/p&gt;
@@ -3355,7 +3355,7 @@ Trace dump saved to: /var/folders/cs/mfl4k8t54_g1thdzvzkdxbbr0000gn/T/trace13631
 &lt;li&gt;更适合于文件系统;
 看下图:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/struct/b+.jpg&#34; alt=&#34;b+&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sky3hao.github.io/struct/b+.jpg&#34; alt=&#34;b+&#34;&gt;&lt;/p&gt;
 &lt;p&gt;非叶子节点(比如5, 28, 65)只是一个key(索引), 实际的数据存在叶子节点上(5, 8, 9)才是真正的数据或指向真实数据的指针.&lt;/p&gt;
 &lt;h3 id=&#34;特点&#34;&gt;特点&lt;/h3&gt;
 &lt;ul&gt;
